@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { FaHireAHelper } from "react-icons/fa";
 import { LiaBusinessTimeSolid } from "react-icons/lia";
-import Dialog from "../../components/Ui/DiologBox/LoginDilog";
 
 const Header = () => {
   const [openDrop, setOpenDrop] = useState(false);
@@ -117,9 +116,11 @@ const Header = () => {
                     </Link>
                     <hr />
 
-                    <li className="flex items-center justify-between">
-                      Admin <LiaBusinessTimeSolid className="ml-1" />
-                    </li>
+                    <Link to="admin">
+                      <li className="flex items-center justify-between">
+                        Admin <LiaBusinessTimeSolid className="ml-1" />
+                      </li>
+                    </Link>
 
                     <Link to="help">
                       <li className="flex items-center justify-between">
