@@ -1,5 +1,6 @@
 import React from "react";
 import test from "../assets/8ce53529-21ab-44ea-8422-0259ceb700b4-1FriSyPl33ilsVe8kp_jcc-tyDm31DcFU.jpeg";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   return (
@@ -279,14 +280,16 @@ const Cart = () => {
               <span>Total cost</span>
               <span>$600</span>
             </div>
-            <button className="bg-indigo-500 font-semibold hover.bg-indigo-600 py-3 text-sm text-white uppercase w-full">
+        <Link to="/checkout">
+        <button className="bg-indigo-500 font-semibold hover.bg-indigo-600 py-3 text-sm text-white uppercase w-full">
               Checkout
             </button>
+        </Link>
           </div>
         </div>
       </div>
 
-      <a href="#" className="flex font-semibold text-indigo-600 text-sm mt-10">
+      <a href="" className="flex font-semibold text-indigo-600 text-sm mt-10">
         <svg
           className="fill-current mr-2 text-indigo-600 w-4"
           viewBox="0 0 448 512"

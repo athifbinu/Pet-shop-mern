@@ -51,7 +51,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="#" className="text-gray-70 hover:text-orange-400">
+                <Link to="cart" className="text-gray-70 hover:text-orange-400">
                   Cart
                 </Link>
               </li>

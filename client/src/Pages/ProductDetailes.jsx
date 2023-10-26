@@ -12,20 +12,22 @@ const ProductDetailes = () => {
   return (
     <section>
       <div className="container mx-auto p-5">
-        <div className="md:flex items-center">
-          <div className="md:w-60">
-            <div className="mb-7">
-              <img src={test} alt="" className="w-2/4" />
-            </div>
-            <div className=" mb-7">
-              <img src={test} alt="" className="w-2/4" />
-            </div>
-            <div className="mb-7">
-              <img src={test} alt="" className="w-2/4" />
-            </div>
-          </div>
+        <div className="md:flex  justify-center">
+          <div className="flex items-center ">
+            <div>
+              <div className=" border cursor-pointer  border-orange-500 p-1 rounded-lg mb-6">
+                <img src={test} alt="" className="w-20" />
+              </div>
 
-          <div className="">
+              <div className=" border cursor-pointer  border-orange-500 p-1 rounded-lg mb-6">
+                <img src={test} alt="" className="w-20" />
+              </div>
+
+              <div className=" border cursor-pointer  border-orange-500 p-1 rounded-lg mb-6">
+                <img src={test} alt="" className="w-20" />
+              </div>
+            </div>
+
             <div className="">
               <img src={test} alt="" className="w-full" />
             </div>
@@ -57,7 +59,10 @@ const ProductDetailes = () => {
               </div>
 
               <div className="mb-5">
-                <p>test</p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dmnis
+                  asperiores laudantium.
+                </p>
               </div>
 
               <div className="flex gap-3 mb-16">
