@@ -10,6 +10,7 @@ import Watchlist from "../Pages/Watchlist";
 import Contact from "../Pages/Contact";
 import Help from "../Pages/Help";
 import Carrers from "../Pages/Carrers";
+import Blog from "../Pages/Blog";
 
 import Dashboard from "../Admin/AdPages/Dashboard";
 import AddProduct from "../Admin/AdPages/AddProduct";
@@ -33,6 +34,7 @@ const Routers = () => {
       <Route path="contact" element={<Contact />} />
       <Route path="help" element={<Help />} />
       <Route path="careers" element={<Carrers />} />
+      <Route path="blog" element={<Blog />} />
 
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
