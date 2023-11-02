@@ -3,6 +3,7 @@ import React from "react";
 import test from "../assets/8ce53529-21ab-44ea-8422-0259ceb700b4-1FriSyPl33ilsVe8kp_jcc-tyDm31DcFU.jpeg";
 
 import { MdArrowBackIosNew } from "react-icons/md";
+import paymenticons from "../assets/icons/payment_icons (6) (1).jpg"
 
 const Checkout = () => {
   return (
@@ -116,7 +117,7 @@ const Checkout = () => {
               </form>
             </div>
 
-            <div className="flex justify-between mt-10">
+            <div className="flex justify-between mt-10 mb-14">
               <div className="flex items-center cursor-pointer">
                 <MdArrowBackIosNew />
 
@@ -127,16 +128,37 @@ const Checkout = () => {
                 Checkout
               </button>
             </div>
+
+            <div className="cursor-pointer ">
+                <img className="" src={paymenticons} alt="" />
+            </div>
+
+
           </div>
 
+
+
           <div>
-            <div>
-              <div className="flex items-center bg-gray-500 h-24">
-                <img src={test} className="w-20" alt="" />
-                <h3>Predigree Dog food</h3>
+            <div className="flex items-center gap-10 mb-7">
+              <div>
+                <img src={test} className="w-16" alt="" />
               </div>
+              <p>Pedigree Dof Dood 1 Kg Puppy</p>
+
+              <p>1290</p>
+            </div>
+
+            <div className="flex items-center gap-10 mb-7">
+              <div>
+                <img src={test} className="w-16" alt="" />
+              </div>
+              <p>Pedigree Dof Dood 1 Kg Puppy</p>
+
+              <p>1290</p>
             </div>
           </div>
+
+
         </div>
       </section>
     </div>
@@ -144,3 +166,22 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+// "bg-blue-50 text-black p-5 rounded-lg
+
+
+
+
+// <div>
+// <div>
+//   <p>subtotal</p>
+//   <p>56900</p>
+// </div>
+// <hr />
+
+// <div>
+// <h2>Total</h2>
+
+// <h1>2544</h1>
+// </div>
+// </div>
