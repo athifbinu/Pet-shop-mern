@@ -2,6 +2,7 @@ import {
   checkEmail,
   getSignUp,
   getUser,
+  getUserData,
   updatePasswordUser,
 } from "../helpers/user-helpers.js";
 import {
@@ -23,6 +24,7 @@ export const userSignUp = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 export const userLogin = async (req, res) => {
@@ -43,6 +45,7 @@ export const userLogin = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -64,5 +67,19 @@ export const updatePassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await getUserData(id);
+    if (data) {
+      res.status(200).json(data);
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };
