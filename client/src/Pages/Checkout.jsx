@@ -3,7 +3,13 @@ import React from "react";
 import test from "../assets/8ce53529-21ab-44ea-8422-0259ceb700b4-1FriSyPl33ilsVe8kp_jcc-tyDm31DcFU.jpeg";
 
 import { MdArrowBackIosNew } from "react-icons/md";
-import paymenticons from "../assets/icons/payment_icons (6) (1).jpg"
+import gp from "../assets/icons/google-pay.png";
+import pt from "../assets/icons/Paytm-Logo.wine.svg";
+import pn from "../assets/icons/PhonePe-Logo.wine.svg";
+import ms from "../assets/icons/Amazon_Pay-Logo.wine.svg";
+import bhim from "../assets/icons/bhim.svg";
+import mc from "../assets/icons/Mastercard-Logo.wine.svg";
+import vs from "../assets/icons/Visa_Inc.-Logo.wine.svg";
 
 const Checkout = () => {
   return (
@@ -129,14 +135,31 @@ const Checkout = () => {
               </button>
             </div>
 
-            <div className="cursor-pointer ">
-                <img className="" src={paymenticons} alt="" />
+            <div className="cursor-pointer flex justify-between items-center">
+              <div>
+                <img className="w-16" src={gp} alt="" />
+              </div>
+              <div>
+                <img className="w-16" src={pt} alt="" />
+              </div>
+              <div>
+                <img className="w-16" src={pn} alt="" />
+              </div>
+
+              <div>
+                <img className="w-16" src={ms} alt="" />
+              </div>
+              <div>
+                <img className="w-16" src={bhim} alt="" />
+              </div>
+              <div>
+                <img className="w-16" src={mc} alt="" />
+              </div>
+              <div>
+                <img className="w-16" src={vs} alt="" />
+              </div>
             </div>
-
-
           </div>
-
-
 
           <div>
             <div className="flex items-center gap-10 mb-7">
@@ -157,8 +180,6 @@ const Checkout = () => {
               <p>1290</p>
             </div>
           </div>
-
-
         </div>
       </section>
     </div>
@@ -168,9 +189,6 @@ const Checkout = () => {
 export default Checkout;
 
 // "bg-blue-50 text-black p-5 rounded-lg
-
-
-
 
 // <div>
 // <div>
