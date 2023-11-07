@@ -11,6 +11,9 @@ import bhim from "../assets/icons/bhim.svg";
 import mc from "../assets/icons/Mastercard-Logo.wine.svg";
 import vs from "../assets/icons/Visa_Inc.-Logo.wine.svg";
 
+
+import CountryDrop from "../components/Ui/CountryDrop"
+
 const Checkout = () => {
   return (
     <div>
@@ -89,6 +92,9 @@ const Checkout = () => {
                   />
                 </div>
 
+
+
+
                 <div className="flex justify-between ">
                   <input
                     type="text"
@@ -99,16 +105,10 @@ const Checkout = () => {
           font-bold"
                     placeholder="City"
                   />
-
-                  <input
-                    type="text"
-                    className="p-1  text-gray-500
-                       bg-white border
-                     rounded-md shadow-sm outline-none appearance-none
-                    focus:border-orange-500
-          font-bold w-44"
-                    placeholder="State"
-                  />
+                 
+                   <div>
+                       <CountryDrop/>
+                   </div>
 
                   <input
                     type="text"
@@ -120,6 +120,9 @@ const Checkout = () => {
                     placeholder="Pin code"
                   />
                 </div>
+
+
+
               </form>
             </div>
 
