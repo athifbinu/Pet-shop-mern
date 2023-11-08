@@ -11,11 +11,14 @@ const CountryDrop = () => {
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+    setSelected("");
+    setQuery("");
   };
 
   const handleItemClick = (item) => {
     setSelected(item);
     setIsOpen(false);
+    setQuery("");
   };
 
   return (
@@ -51,6 +54,8 @@ const CountryDrop = () => {
                    font-bold w-44 "
                 type="text"
                 placeholder="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value.toLowerCase())}
               />
             </div>
 
@@ -58,11 +63,13 @@ const CountryDrop = () => {
               className="py-2 text-sm text-gray-700 dark:text-gray-200 overflow-scroll h-52"
               aria-labelledby="dropdownDefaultButton"
             >
-              {States.map((state) => (
+              {States.filter((state) =>
+                state.name.toLowerCase().includes(query)
+              ).map((state) => (
                 <li
+                  className="block px-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   key={state.id}
                   onClick={() => handleItemClick(state.name)}
-                  className="block px-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   {state.name}
                 </li>

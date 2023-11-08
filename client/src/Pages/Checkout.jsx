@@ -158,22 +158,36 @@ const Checkout = () => {
           </div>
 
           <div>
-            <div className="flex items-center gap-10 mb-7">
-              <div>
-                <img src={test} className="w-16" alt="" />
-              </div>
-              <p>Pedigree Dof Dood 1 Kg Puppy</p>
+            <div>
+              <div className="flex items-center gap-10 mb-7">
+                <div>
+                  <img src={test} className="w-16" alt="" />
+                </div>
+                <p>Pedigree Dof Dood 1 Kg Puppy</p>
 
-              <p>1290</p>
+                <p>1290</p>
+              </div>
+
+              <div className="flex items-center gap-10 mb-7">
+                <div>
+                  <img src={test} className="w-16" alt="" />
+                </div>
+                <p>Pedigree Dof Dood 1 Kg Puppy</p>
+
+                <p>1290</p>
+              </div>
             </div>
 
-            <div className="flex items-center gap-10 mb-7">
-              <div>
-                <img src={test} className="w-16" alt="" />
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <p>SubTotal</p>
+                <p>2500</p>
               </div>
-              <p>Pedigree Dof Dood 1 Kg Puppy</p>
-
-              <p>1290</p>
+              <hr className="mb-6" />
+              <div className="flex items-center justify-between">
+                <p>total</p>
+                <p>59800</p>
+              </div>
             </div>
           </div>
         </div>
