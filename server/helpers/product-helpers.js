@@ -24,7 +24,7 @@ export const productAdd = (
         resolve({ status: true });
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   });
 };
@@ -34,7 +34,7 @@ export const viewProducts = () => {
       const product = await Product.find();
       resolve(product);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   });
 };
@@ -71,7 +71,21 @@ export const productEdit = (
           console.log(err);
         });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   });
 };
+export const getSingleProductData = (id)=>{
+  try {
+    return new Promise(async(resolve,reject)=>{
+      const data = await Product.findById(id);
+      if(data) {
+        resolve({data,status:true})
+      }else{
+        resolve({status:false})
+      }
+    })
+  } catch (error) {
+     console.log(error.message);
+  }
+}
