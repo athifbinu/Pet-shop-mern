@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ImSpinner } from "react-icons/im";
 
-import Banner from "../../assets/images/hero-img.jpg";
+import Banner from "../../assets/images/mane.png";
 import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../../Firebase/FirebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -18,9 +18,6 @@ const AddProduct = () => {
   const [Price, Setprice] = useState("");
   const [Offer, setOffer] = useState("");
   const [Brand, setBrand] = useState("");
-
-
-  
 
   const addProduct = async (e) => {
     e.preventDefault();
@@ -71,8 +68,6 @@ const AddProduct = () => {
       });
     }
   };
-
-
 
   return (
     <section className="flex first-line:items-center h-screen  p-10  gap-11">

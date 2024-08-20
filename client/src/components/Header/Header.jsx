@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BsListUl,
   BsPersonBoundingBox,
@@ -15,6 +15,7 @@ import { LiaBusinessTimeSolid } from "react-icons/lia";
 
 const Header = () => {
   const [openDrop, setOpenDrop] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleOpen = () => {
     setOpenDrop(!openDrop);
@@ -24,8 +25,27 @@ const Header = () => {
     setOpenDrop(false);
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header>
+    <header
+      className={`w-full fixed top-0 left-0 z-10 ${
+        isScrolled ? "shadow-lg" : ""
+      }`}
+    >
       <nav className="bg-white px-4 lg:px-6 py-3.5 ">
         <div className="flex flex-wrap  mx-auto max-w-screen-xl justify-between items-center">
           <Link to="home" className="flex">
@@ -61,7 +81,7 @@ const Header = () => {
           <div className="flex gap-3 items-center">
             <Link to="watchList">
               <span className="cursor-pointer">
-                <FiHeart size={22} />
+                <FiHeart className="text-red-500" size={22} />
               </span>
             </Link>
 
