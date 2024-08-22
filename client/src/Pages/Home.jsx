@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import heroImage from "../assets/images/mane.png";
-import aboutImage from "../assets/images/about.png"; // Import your "About Us" image
-
+import aboutImage from "../assets/images/about.png";
 import test from "../assets/categoys/7413369.png";
 import test1 from "../assets/categoys/7413375.png";
 import CategorysCard from "../components/Ui/CategorysCard";
@@ -12,10 +11,53 @@ import HappyFace from "../assets/icons/happy-face.png";
 import frame1 from "../assets/images/frame1.jpg";
 import frame2 from "../assets/images/frame2.jpg";
 import frame3 from "../assets/images/frame3.jpg";
-
 import review from "../assets/Data/Review";
 import Star from "../assets/icons/review.png";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const Home = () => {
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    pauseOnHover: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false, // This will remove the slick-arrow buttons
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+          arrows: false, // Make sure to add this to responsive settings as well if needed
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false, // Disable arrows for this breakpoint as well
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false, // Disable arrows for this breakpoint as well
+        },
+      },
+    ],
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -30,8 +72,8 @@ const Home = () => {
               <Link to="/shop">Shop Now</Link>
             </button>
           </div>
-          <div className="">
-            <img className="" src={heroImage} alt="" />
+          <div>
+            <img src={heroImage} alt="Hero" />
           </div>
         </div>
       </section>
@@ -62,13 +104,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* categorys */}
+      {/* Categories */}
       <section>
         <div className="container mb-8">
           <div className="flex gap-4 items-center justify-center">
-            <img className="w-11" src={star} alt="" />
+            <img className="w-11" src={star} alt="Star Icon" />
             <span className="text-3xl font-bold">Shop by Categories</span>
-            <img className="w-11" src={star} alt="" />
+            <img className="w-11" src={star} alt="Star Icon" />
           </div>
           <br />
           <br />
@@ -78,13 +120,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* shopeby-pet */}
+      {/* Shop by Pet */}
       <section>
         <div className="container mb-8">
           <div className="flex gap-4 items-center justify-center">
-            <img className="w-11" src={star} alt="" />
+            <img className="w-11" src={star} alt="Star Icon" />
             <span className="text-3xl font-bold">Shop by Pets/animals</span>
-            <img className="w-11" src={star} alt="" />
+            <img className="w-11" src={star} alt="Star Icon" />
           </div>
           <br />
           <br />
@@ -94,24 +136,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* banner */}
-
+      {/* Banner */}
       <section>
         <div className="container mb-8">
           <div>
-            <img className="w-full rounded-xl h-60" src={Banner} alt="" />
+            <img className="w-full rounded-xl h-60" src={Banner} alt="Banner" />
           </div>
         </div>
       </section>
 
-      {/* shop by poultry */}
-
+      {/* Shop by Poultry */}
       <section>
         <div className="container mb-8">
           <div className="flex gap-4 items-center justify-center">
-            <img className="w-11" src={star} alt="" />
+            <img className="w-11" src={star} alt="Star Icon" />
             <span className="text-3xl font-bold">Shop by Poultry</span>
-            <img className="w-11" src={star} alt="" />
+            <img className="w-11" src={star} alt="Star Icon" />
           </div>
           <br />
           <br />
@@ -121,73 +161,81 @@ const Home = () => {
         </div>
       </section>
 
-      {/* doctor consulting */}
+      {/* Doctor Consulting */}
       <section>
         <div className="container mb-8">
           <div className="grid md:grid-cols-2 gap-5">
             <div>
-              <img className="cursor-pointer" src={frame1} alt="" />
+              <img
+                className="cursor-pointer"
+                src={frame1}
+                alt="Consultation 1"
+              />
             </div>
-            <div className="">
-              <img className="mb-2 cursor-pointer" src={frame2} alt="" />
-              <img className="cursor-pointer" src={frame3} alt="" />
+            <div>
+              <img
+                className="mb-2 cursor-pointer"
+                src={frame2}
+                alt="Consultation 2"
+              />
+              <img
+                className="cursor-pointer"
+                src={frame3}
+                alt="Consultation 3"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* review */}
-      <section className="bg-gradient-to-r from-rose-100 to-teal-100">
-        <div className="container mb-8 grid">
-          <div className="flex gap-4 items-center justify-center">
-            <img className="w-11" src={HappyFace} alt="" />
+      {/* Review Section */}
+      <section className="bg-gradient-to-r from-rose-100 to-teal-100 py-28">
+        <div className="container">
+          <div className="flex gap-4 items-center justify-center mb-8">
+            <img className="w-11" src={HappyFace} alt="Happy Face" />
             <span className="text-3xl font-bold">Happy Customers</span>
-            <img className="w-11" src={HappyFace} alt="" />
+            <img className="w-11" src={HappyFace} alt="Happy Face" />
           </div>
-          <br />
-          <br />
 
-          <div className="flex">
-            {review.map((item, index) => (
+          <Slider {...settings}>
+            {review.map((item) => (
               <div
                 key={item.id}
-                class="relative  max-w-xs flex-col
-       overflow-hidden rounded-lg 
-      border border-gray-100 bg-white shadow-md w-56 m-2 "
+                className="relative max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md w-56 m-2 "
               >
                 <div className="p-2">
                   <img
-                    class="object-cover"
+                    className="object-cover"
                     src={item.img}
-                    alt="product image"
+                    alt="Customer Review"
                   />
                 </div>
 
-                <div class="mt-4 px-5 pb-5">
-                  <div class="mb-5">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                      Qrum nulla laboriosam dolores.
-                    </p>
+                <div className="mt-4 px-5 pb-5">
+                  <div className="mb-5">
+                    <p>{item.reviewText}</p>
                   </div>
 
-                  <div className="grid md:grid-col-sm-4">
-                    <div className="flex gap-1">
-                      <img className="w-4" src={Star} alt="" />
-                      <img className="w-4" src={Star} alt="" />
-                      <img className="w-4" src={Star} alt="" />
-                      <img className="w-4" src={Star} alt="" />
-                      <img className="w-4" src={Star} alt="" />
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-16">
+                      {[...Array(item.rating)].map((_, index) => (
+                        <img
+                          key={index}
+                          className="w-4"
+                          src={Star}
+                          alt="Star"
+                        />
+                      ))}
                     </div>
 
                     <div>
-                      <p>"Sreya"</p>
+                      <p>{item.reviewerName}</p>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
+          </Slider>
         </div>
       </section>
     </div>
