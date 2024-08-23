@@ -27,7 +27,7 @@ const Home = () => {
     pauseOnHover: true,
     autoplay: true,
     autoplaySpeed: 2000,
-    arrows: false, // This will remove the slick-arrow buttons
+    arrows: false,
     responsive: [
       {
         breakpoint: 1024,
@@ -36,7 +36,7 @@ const Home = () => {
           slidesToScroll: 1,
           infinite: true,
           dots: true,
-          arrows: false, // Make sure to add this to responsive settings as well if needed
+          arrows: false,
         },
       },
       {
@@ -44,7 +44,7 @@ const Home = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false, // Disable arrows for this breakpoint as well
+          arrows: false,
         },
       },
       {
@@ -52,7 +52,7 @@ const Home = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false, // Disable arrows for this breakpoint as well
+          arrows: false,
         },
       },
     ],
@@ -203,9 +203,9 @@ const Home = () => {
                 key={item.id}
                 className="relative max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md w-56 m-2 "
               >
-                <div className="p-2">
+                <div className="p-3">
                   <img
-                    className="object-cover"
+                    className="object-cover rounded-lg"
                     src={item.img}
                     alt="Customer Review"
                   />
