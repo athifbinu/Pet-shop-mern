@@ -7,6 +7,7 @@ import caseon from "../assets/icons/cash-on-delivery.png";
 import test from "../assets/8ce53529-21ab-44ea-8422-0259ceb700b4-1FriSyPl33ilsVe8kp_jcc-tyDm31DcFU.jpeg";
 
 import { BsFillStarFill } from "react-icons/bs";
+import ProductCard from "../components/Ui/ProductCard";
 
 const ProductDetailes = () => {
   const [activeSection, setActiveSection] = useState("description");
@@ -174,6 +175,25 @@ const ProductDetailes = () => {
             )}
           </div>
         </div>
+
+        <section>
+          <div className="container">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 ">
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   );
