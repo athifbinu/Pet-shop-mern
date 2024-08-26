@@ -63,6 +63,8 @@ export const signIn = async(req, res)=>{
         
         
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({ error: 'Internal server error' })
         
     }
@@ -76,7 +78,7 @@ export const signOut = async(req, res)=>{
 
 // midelwares
 export const requireSignin = expressJwt({
-    secret: process.env.JWTSECRET,
+    secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
     userProperty: "auth",
 });
@@ -155,4 +157,4 @@ export const isAdmin = (req, res, next) => {
 }
 
 
-export default { signup, signIn };
+export default { signup, signIn,signOut, requireSignin,isAdmin, isAuth };
