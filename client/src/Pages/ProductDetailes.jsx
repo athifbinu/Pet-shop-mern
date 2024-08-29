@@ -121,7 +121,7 @@ const ProductDetailes = () => {
             </div>
           </div>
 
-          <div className="container border border-orange-200 rounded-md shadow-2xl p-4 ">
+          <div className=" border border-orange-200 rounded-md shadow-2xl p-4 ">
             {activeSection === "description" && (
               <section>
                 <div className="mt-4">
