@@ -1,7 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/images/lloyd-dirks-R1oSj2m-7Ks-unsplash.jpg";
 import { Link } from "react-router-dom";
 const Signup = () => {
+
+  const [values, setValues] = useState({
+    name : "",
+    email : "",
+    password : "",
+    error : "",
+    success: false
+  })
+  const { name, email, password, success, error} = values
+  const handleChange = name=>event=>{
+    setValues({...values, error:false, [name]: event.target.value} )
+  }
+
+  const signUp = (user) => {
+    return fetch(`http://localhost:8000/api/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+    .then(response => {
+      console.log('Raw response:', response); // Log the raw response
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      return response.json();
+    })
+    .catch(err => {
+      console.error('Error fetching API:', err);
+    });
+  };
+  
+
+  const clickSubmit = (event) => {
+    event.preventDefault();
+  
+    signUp({ name, email, password })
+      .then((data) => {
+        if (!data) {
+          // If data is undefined, log an error and return
+          console.error("No data returned from the API");
+          return;
+        }
+  
+        if (data.error) {
+          // Handle the error response from the API
+          setValues({
+            ...values,
+            error: data.error, // Set the error message returned from the API
+            success: false,
+          });
+        } else {
+          // If signup was successful
+          setValues({
+            ...values,
+            name: "",
+            email: "",
+            password: "",
+            error: "",
+            success: true, // Set success to true if the signup was successful
+          });
+        }
+      })
+      .catch((error) => {
+        // Catch any errors that occur during the fetch operation
+        console.error("Error during signup:", error);
+        setValues({
+          ...values,
+          error: "Something went wrong. Please try again.", // Set a generic error message
+          success: false,
+        });
+      });
+  };
+  
+
+
+
+
   return (
     <section className=" min-h-fit  flex items-center justify-center mt-12">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-4xl items-center">
@@ -15,6 +97,8 @@ const Signup = () => {
               type="text"
               name="name"
               placeholder="Name"
+              onChange={handleChange('name')}
+              value={name}
             />
             <div className="relative">
               <input
@@ -22,17 +106,19 @@ const Signup = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
+                onChange={handleChange('email')}
+                value={email}
               />
             </div>
 
-            <div className="relative">
+            {/* <div className="relative">
               <input
                 className="p-2 rounded-xl border w-full"
                 type="number"
                 name="phone"
                 placeholder="Phone Number"
               />
-            </div>
+            </div> */}
 
             <div className="relative">
               <input
@@ -40,12 +126,15 @@ const Signup = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                onChange={handleChange('password')}
+                value={password}
               />
             </div>
 
             <button
               type="submit"
               className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
+              onClick={clickSubmit}
             >
               Login
             </button>

@@ -26,26 +26,9 @@ export const signup = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-            //generate a signed token with  user id and secret
-            const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
 
-            //persit the token as "t" in cookie with exp date
-            res.cookie('t',token, {expire: new Date()+9999})
+     
 
-            //return response with user and token to the frontend client
-            const { _id, name, email, role } = user
-            return res.json({token, user : {_id, name, email, role}})
-
-        }
-        
-        
-    } catch (error) {
-        console.log(error);
-        
-        return res.status(500).json({ error: 'Internal server error' })
-        
-=======
 export const signIn = async (req, res) => {
   try {
     //find the user based on email
@@ -55,7 +38,7 @@ export const signIn = async (req, res) => {
       return res.status(400).json({
         error: " User not found",
       });
->>>>>>> fffa14dc41854ff4e852b12b998c1e271640aff0
+
     }
     if (user) {
       //make sure the email and password match
@@ -88,36 +71,17 @@ export const signOut = async (req, res) => {
 
 // midelwares
 export const requireSignin = expressJwt({
-<<<<<<< HEAD
+
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
     userProperty: "auth",
-=======
-  secret: process.env.JWTSECRET,
+
+  secret: process.env.JWT_SECRET,
   algorithms: ["HS256"],
   userProperty: "auth",
->>>>>>> fffa14dc41854ff4e852b12b998c1e271640aff0
+
 });
 
-// exports.isAuth = (req, res, next) =>{
-//     const user = req.profile && req.auth && req.profile._id == req.auth._id
-//     if(!user){
-//         res.status(403).json({
-//             error :"Access denied"
-//         })
-//     }
-
-//     next()
-// }
-
-// exports.isAdmin = (req, res, next)=>{
-//     if(req.profile.role===0){
-//         return res.status(403).json({
-//             error : "Admin resourse! Access denied"
-//         })
-//     }
-//     next()
-// }
 
 export const isAuth = (req, res, next) => {
   console.log("req.profile._id-----------", req.profile._id);
@@ -137,27 +101,6 @@ export const isAuth = (req, res, next) => {
   next();
 };
 
-// exports.isAuth = (req, res, next) => {
-//     console.log("req.profile._id:", req.profile?._id);
-//     console.log("req.auth._id:", req.auth?._id);
-
-//     // Convert ObjectId to string for comparison
-//     const profileId = req.profile._id.toString();
-//     const authId = req.auth._id;
-
-//     // Compare as strings
-//     const user = profileId === authId;
-//     console.log("***************************************",authId);
-//     console.log("***************************************",profileId);
-
-//     if (!user) {
-//         console.log("isAuth: Access denied");
-//         return res.status(403).json({ error: "Access denied" });
-//     }
-
-//     console.log("isAuth: Access granted");
-//     next();
-// };
 
 export const isAdmin = (req, res, next) => {
   if (req.profile.role === false) {
@@ -170,9 +113,7 @@ export const isAdmin = (req, res, next) => {
   next();
 };
 
-<<<<<<< HEAD
+
 
 export default { signup, signIn,signOut, requireSignin,isAdmin, isAuth };
-=======
-export default { signup, signIn };
->>>>>>> fffa14dc41854ff4e852b12b998c1e271640aff0
+

@@ -33,7 +33,7 @@ app.use(cookieParser())
 // app.use(expressValidator())
 
 const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your frontend URL
+  origin: 'http://localhost:5173', // Replace with your frontend URL
   methods: 'GET,POST,PUT,DELETE',  // Specify the methods you want to allow
   allowedHeaders: 'Content-Type,Authorization' // Specify the headers you want to allow
 };
