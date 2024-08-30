@@ -38,28 +38,11 @@ const ProductDetailes = () => {
 
           <div className="md:w-6/12 p-14">
             <div className="">
-              <h1 className="text-black font-bold text-6xl mb-5">test</h1>
+              <h1 className="text-black font-bold text-6xl mb-5">
+                Product name
+              </h1>
 
-              <div className="flex mb-5">
-                <div className=" flex gap-x-2 text-sm items-center">
-                  <div className="  text-yellow-400  flex gap-2">
-                    <BsFillStarFill size={15} />
-                    <BsFillStarFill size={15} />
-                    <BsFillStarFill size={15} />
-                    <BsFillStarFill size={15} />
-                    <BsFillStarFill size={15} />
-                  </div>
-                  <div className=" text-black px-3 font-bold text-2xl">
-                    <h2>5.5</h2>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-3 mb-5">
-                <p>Category</p>
-                <p>|</p>
-                <p>test</p>
-              </div>
+              <span>2000</span>
 
               <div className="mb-5">
                 <p>
@@ -68,20 +51,25 @@ const ProductDetailes = () => {
                 </p>
               </div>
 
-              <div className="flex gap-3 mb-16">
-                <div>
-                  <img className="w-11" src={fast} alt="" />
-                  <p>Free Delivery</p>
+              <div class="flex flex-col space-y-4 mb-6">
+                <div class="flex items-center space-x-2">
+                  <span class="text-lg font-semibold text-black">
+                    Pack Size
+                  </span>
+                  <span class="bg-orange-400 text-white text-sm px-3 py-1 rounded-full">
+                    1.5 kg
+                  </span>
                 </div>
 
-                <div>
-                  <img className="w-11" src={home} alt="" />
-                  <p>Free Delivery</p>
-                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-lg font-semibold text-black">Quantity</span>
+                  <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="px-3 py-2 text-gray-700">-</button>
 
-                <div>
-                  <img className="w-11" src={caseon} alt="" />
-                  <p>Free Delivery</p>
+                    <span>10</span>
+
+                    <button class="px-3 py-2 text-gray-700">+</button>
+                  </div>
                 </div>
               </div>
 

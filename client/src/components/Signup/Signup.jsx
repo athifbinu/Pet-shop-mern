@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/lloyd-dirks-R1oSj2m-7Ks-unsplash.jpg";
 import { Link } from "react-router-dom";
-const Signup = () => {
+import Swal from "sweetalert2";
 
+const Signup = () => {
   const [values, setValues] = useState({
-    name : "",
-    email : "",
-    password : "",
-    error : "",
-    success: false
-  })
-  const { name, email, password, success, error} = values
-  const handleChange = name=>event=>{
-    setValues({...values, error:false, [name]: event.target.value} )
-  }
+    name: "",
+    email: "",
+    password: "",
+    error: "",
+    success: false,
+  });
+  const { name, email, password, success, error } = values;
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
 
   const signUp = (user) => {
     return fetch(`http://localhost:8000/api/signup`, {
@@ -24,65 +25,63 @@ const Signup = () => {
       },
       body: JSON.stringify(user),
     })
-    .then(response => {
-      console.log('Raw response:', response); // Log the raw response
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      return response.json();
-    })
-    .catch(err => {
-      console.error('Error fetching API:', err);
-    });
+      .then((response) => {
+        console.log("Raw response:", response);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.json();
+      })
+      .catch((err) => {
+        console.error("Error fetching API:", err);
+      });
   };
-  
 
   const clickSubmit = (event) => {
     event.preventDefault();
-  
+
     signUp({ name, email, password })
       .then((data) => {
         if (!data) {
-          // If data is undefined, log an error and return
           console.error("No data returned from the API");
           return;
         }
-  
+
         if (data.error) {
-          // Handle the error response from the API
           setValues({
             ...values,
-            error: data.error, // Set the error message returned from the API
+            error: data.error,
             success: false,
           });
         } else {
-          // If signup was successful
+          Swal.fire({
+            icon: "success",
+            title: "Signup Successful",
+            text: "Welcome aboard! Your account has been created successfully.",
+            confirmButtonText: "OK",
+          });
+
           setValues({
             ...values,
             name: "",
             email: "",
             password: "",
             error: "",
-            success: true, // Set success to true if the signup was successful
+            success: true,
           });
         }
       })
       .catch((error) => {
-        // Catch any errors that occur during the fetch operation
         console.error("Error during signup:", error);
         setValues({
           ...values,
-          error: "Something went wrong. Please try again.", // Set a generic error message
+          error: "Something went wrong. Please try again.",
           success: false,
         });
       });
   };
-  
-
-
-
 
   return (
     <section className=" min-h-fit  flex items-center justify-center mt-12">
@@ -97,7 +96,7 @@ const Signup = () => {
               type="text"
               name="name"
               placeholder="Name"
-              onChange={handleChange('name')}
+              onChange={handleChange("name")}
               value={name}
             />
             <div className="relative">
@@ -106,7 +105,7 @@ const Signup = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                onChange={handleChange('email')}
+                onChange={handleChange("email")}
                 value={email}
               />
             </div>
@@ -126,7 +125,7 @@ const Signup = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                onChange={handleChange('password')}
+                onChange={handleChange("password")}
                 value={password}
               />
             </div>
@@ -136,7 +135,7 @@ const Signup = () => {
               className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
               onClick={clickSubmit}
             >
-              Login
+              Signup
             </button>
           </form>
 
