@@ -12,6 +12,17 @@ import ProductCard from "../components/Ui/ProductCard";
 const ProductDetailes = () => {
   const [activeSection, setActiveSection] = useState("description");
 
+  const [rating, setRating] = useState(0); // State to track the current rating
+
+  // Function to handle star click
+  const handleStarClick = (index) => {
+    setRating(index + 1); // Set the rating based on the star clicked (index + 1)
+  };
+
+  const handlereviewsubmit = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <section>
       <div className="container mx-auto p-5">
@@ -61,7 +72,7 @@ const ProductDetailes = () => {
                   </span>
                 </div>
 
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-9">
                   <span class="text-lg font-semibold text-black">Quantity</span>
                   <div class="flex items-center border border-gray-300 rounded-md">
                     <button class="px-3 py-2 text-gray-700">-</button>
@@ -73,9 +84,12 @@ const ProductDetailes = () => {
                 </div>
               </div>
 
-              <div className="">
+              <div className="flex gap-6 items-center">
                 <button className=" text-black bg-orange-300 p-2  rounded h-10 cursor-pointer border-none hover:bg-orange-500">
                   Add To Cart
+                </button>
+                <button className=" text-black bg-orange-300 p-2  rounded h-10 cursor-pointer border-none hover:bg-orange-500">
+                  Buy now
                 </button>
               </div>
             </div>
@@ -150,9 +164,114 @@ const ProductDetailes = () => {
               </section>
             )}
             {activeSection === "review" && (
-              <section>
-                <h2>Review Section</h2>
-                <p>This is the review content.</p>
+              <section className="p-5">
+                <div className="grid md:grid-cols-4 gap-5 mb-5 ">
+                  <div className="p-4 bg-gradient-to-r from-indigo-200 to-yellow-100 rounded border-none">
+                    <p>name</p>
+                    <div className="flex items-center gap-2 text-yellow-400">
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                    </div>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ut dolorem autem culpa aspernatur qui architecto
+                    </p>
+                  </div>
+                  <div className="p-4 bg-gradient-to-r from-indigo-200 to-yellow-100 rounded border-none">
+                    <p>name</p>
+                    <div className="flex items-center gap-2 text-yellow-400">
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                    </div>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ut dolorem autem culpa aspernatur qui architecto
+                    </p>
+                  </div>{" "}
+                  <div className="p-4 bg-gradient-to-r from-indigo-200 to-yellow-100 rounded border-none">
+                    <p>name</p>
+                    <div className="flex items-center gap-2 text-yellow-400">
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                    </div>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ut dolorem autem culpa aspernatur qui architecto
+                    </p>
+                  </div>{" "}
+                  <div className="p-4 bg-gradient-to-r from-indigo-200 to-yellow-100 rounded border-none">
+                    <p>name</p>
+                    <div className="flex items-center gap-2 text-yellow-400">
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                    </div>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ut dolorem autem culpa aspernatur qui architecto
+                    </p>
+                  </div>{" "}
+                  <div className="p-4 bg-gradient-to-r from-indigo-200 to-yellow-100 rounded border-none">
+                    <p>name</p>
+                    <div className="flex items-center gap-2 text-yellow-400">
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                      <BsFillStarFill />
+                    </div>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ut dolorem autem culpa aspernatur qui architecto
+                    </p>
+                  </div>
+                </div>
+                <div className="bg-white shadow-lg rounded-lg p-6 max-w-lg w-full">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                    Write Your Review
+                  </h2>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <input
+                        className="p-3 text-gray-700 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        type="text"
+                        placeholder="Enter your name"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        className="p-3 text-gray-700 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      />
+                    </div>
+                    <div className="flex items-center justify-center text-yellow-500 gap-2">
+                      {[...Array(5)].map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleStarClick(index)}
+                          className="focus:outline-none"
+                        >
+                          <BsFillStarFill
+                            size={24}
+                            className={
+                              index < rating
+                                ? "text-yellow-500"
+                                : "text-gray-300"
+                            }
+                          />
+                        </button>
+                      ))}
+                    </div>
+                    <textarea
+                      className="w-full p-3 text-gray-700 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      placeholder="Write your review"
+                      rows="5"
+                    ></textarea>
+                    <button className="w-full py-3 bg-orange-500 text-white font-bold rounded-md shadow-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                      Submit Review
+                    </button>
+                  </div>
+                </div>
               </section>
             )}
             {activeSection === "manufacture" && (
