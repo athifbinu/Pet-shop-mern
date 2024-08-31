@@ -8,6 +8,9 @@ import test from "../assets/8ce53529-21ab-44ea-8422-0259ceb700b4-1FriSyPl33ilsVe
 
 import { BsFillStarFill } from "react-icons/bs";
 import ProductCard from "../components/Ui/ProductCard";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const ProductDetailes = () => {
   const [activeSection, setActiveSection] = useState("description");
@@ -21,6 +24,46 @@ const ProductDetailes = () => {
 
   const handlereviewsubmit = (event) => {
     event.preventDefault();
+  };
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    pauseOnHover: true,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+    ],
   };
 
   return (
@@ -276,16 +319,40 @@ const ProductDetailes = () => {
             )}
             {activeSection === "manufacture" && (
               <section>
-                <h2>Manufacture Details Section</h2>
-                <p>This is the manufacture details content.</p>
+                <div>
+                  <div className="flex items-center mb-3 gap-4">
+                    <h2>coutry of orgin : </h2>
+                    <p>india</p>
+                  </div>
+                  <div className="mb-3">
+                    <h2>Name Address of Manufacturer: </h2>
+                    <p>
+                      Mars Petcare (Thailand) Co Ltd, 799, MOO4, Chantuk,
+                      Pakchong, Nakhornratchasima, 301130, Thailand /\nMars
+                      International, Mars International, Mars Magyarorsz?g
+                      Kis?llateledel Gy?rt? Kft, 6648 Csongr?d-Bokros, l.
+                      ker?let, Hungary /\nMars International India PVT. LTD.,
+                      Mars International India Pvt Ltd , Survey No 2099-2103,
+                      Village Wargal, Siddepet Highway , District Medak 502279 ,
+                      Telangana
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <h2>Imported by :</h2>
+                    <p>
+                      MARS International India Pvt. Ltd.4658-A, No. 21, Ansari
+                      Road, Darya Ganji,New Delhi,110002
+                    </p>
+                  </div>
+                </div>
               </section>
             )}
           </div>
         </div>
 
         <section>
-          <div className="container">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 ">
+          <div className="">
+            <Slider {...settings}>
               <ProductCard />
               <ProductCard />
               <ProductCard />
@@ -298,7 +365,9 @@ const ProductDetailes = () => {
               <ProductCard />
               <ProductCard />
               <ProductCard />
-            </div>
+              <ProductCard />
+              <ProductCard />
+            </Slider>
           </div>
         </section>
       </div>
