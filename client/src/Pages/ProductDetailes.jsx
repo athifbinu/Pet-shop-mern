@@ -67,7 +67,7 @@ const ProductDetailes = () => {
   };
 
   return (
-    <section>
+    <section className="mt-8">
       <div className="container mx-auto p-5">
         <div className="md:flex  justify-center mb-10">
           <div className="flex items-center ">
@@ -138,7 +138,7 @@ const ProductDetailes = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="mb-10">
           <div className="grid md:grid-cols-3">
             <div
               className={`p-4 border border-gray-200 shadow-md rounded text-center cursor-pointer ${
@@ -352,6 +352,9 @@ const ProductDetailes = () => {
 
         <section>
           <div className="">
+            <h1 className="text-center text-3xl font-bold">
+              suggested products
+            </h1>
             <Slider {...settings}>
               <ProductCard />
               <ProductCard />
