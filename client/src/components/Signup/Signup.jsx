@@ -25,13 +25,15 @@ const Signup = () => {
       },
       body: JSON.stringify(user),
     })
-      .then((response) => {
+      .then( async(response) => {
         console.log("Raw response:", response);
 
         if (!response.ok) {
+          const errorDetails = await response.json();  
+          console.error("Error details:", errorDetails);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+      
         return response.json();
       })
       .catch((err) => {

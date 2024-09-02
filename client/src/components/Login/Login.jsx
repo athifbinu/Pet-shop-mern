@@ -1,7 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/images/amber-kipp-75715CVEJhI-unsplash.jpg";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 const Login = () => {
+
+
+  const [values, setValues] = useState({
+    email : "",
+    password : "",
+    error : "",
+    loading : false,
+    redirectToRefferrer : false
+
+  })
+
+  const { email, password, error, loading, redirectToRefferrer } = values
+
+  const handleChange = name=>event=>{
+    setValues({ ...values, error:false, [name]:event.target.value})
+  }
+
+  const signIn = user =>{
+    return fetch(`http://localhost:8000/api/signin`,
+       {
+      method : "POST",
+      headers : {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body : JSON.stringify(user)
+    })
+    .then( response =>{
+      return response.json()
+    })
+    .catch(err=>{
+      console.log(err);
+      
+    })
+  }
+
+  const clickSubmit = ( event )=>{
+    event.preventDefault()
+    setValues({...values, error:false, loading: true})
+    signIn({email, password})
+    .then(data=>{
+      if(!data){
+        setValues({
+          ...values,
+          error : "Something went wrong. Please try again." ,
+          loading : false
+        })
+        return
+      }
+      if(data.error){
+        setValues({
+          ...values,
+          error : data.error,
+          loading : false
+        })
+      }else{
+        setValues({
+          ...values,
+          redirectToRefferrer :true
+        })
+      }
+
+    })
+    .catch((err)=>{
+      console.log(err);
+      setValues({
+        ...values,
+        error : "Request failed. Please try again later.",
+        loading : false
+      })
+      
+    })
+  }
+
   return (
     <section className=" min-h-fit  flex items-center justify-center mt-12">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl items-center">
@@ -17,6 +91,8 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Email"
+              onChange={handleChange('email')}
+              value={email}
             />
             <div className="relative">
               <input
@@ -24,16 +100,22 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                onChange={handleChange("password")}
+                value={password}
               />
+              
             </div>
 
             <button
               type="submit"
+              onClick={clickSubmit}
               className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
             >
               Login
             </button>
           </form>
+          
+
 
           <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
             <hr className="border-gray-400" />
@@ -87,7 +169,9 @@ const Login = () => {
         </div>
       </div>
     </section>
+    
   );
+  
 };
 
 export default Login;
