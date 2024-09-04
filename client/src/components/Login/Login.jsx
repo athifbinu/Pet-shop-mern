@@ -1,83 +1,78 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/amber-kipp-75715CVEJhI-unsplash.jpg";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Updated import
+import Swal from "sweetalert2";
+
 const Login = () => {
-
-
+  const navigate = useNavigate(); // Initialize useNavigate
   const [values, setValues] = useState({
-    email : "",
-    password : "",
-    error : "",
-    loading : false,
-    redirectToRefferrer : false
+    email: "",
+    password: "",
+    error: "",
+    loading: false,
+    redirectToRefferrer: false,
+  });
 
-  })
+  const { email, password, error, loading } = values;
 
-  const { email, password, error, loading, redirectToRefferrer } = values
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
 
-  const handleChange = name=>event=>{
-    setValues({ ...values, error:false, [name]:event.target.value})
-  }
-
-  const signIn = user =>{
-    return fetch(`http://localhost:8000/api/signin`,
-       {
-      method : "POST",
-      headers : {
+  const signIn = (user) => {
+    return fetch(`http://localhost:8000/api/signin`, {
+      method: "POST",
+      headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body : JSON.stringify(user)
+      body: JSON.stringify(user),
     })
-    .then( response =>{
-      return response.json()
-    })
-    .catch(err=>{
-      console.log(err);
-      
-    })
-  }
-
-  const clickSubmit = ( event )=>{
-    event.preventDefault()
-    setValues({...values, error:false, loading: true})
-    signIn({email, password})
-    .then(data=>{
-      if(!data){
-        setValues({
-          ...values,
-          error : "Something went wrong. Please try again." ,
-          loading : false
-        })
-        return
-      }
-      if(data.error){
-        setValues({
-          ...values,
-          error : data.error,
-          loading : false
-        })
-      }else{
-        setValues({
-          ...values,
-          redirectToRefferrer :true
-        })
-      }
-
-    })
-    .catch((err)=>{
-      console.log(err);
-      setValues({
-        ...values,
-        error : "Request failed. Please try again later.",
-        loading : false
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data) {
+          setValues({
+            ...values,
+            error: "Something went wrong. Please try again.",
+            loading: false,
+          });
+          return;
+        }
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error,
+            loading: false,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Login Successful",
+            text: "Welcome aboard! Your login was successful.",
+            confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/");
+          });
+        }
       })
-      
-    })
-  }
+      .catch((err) => {
+        console.log(err);
+        setValues({
+          ...values,
+          error: "Request failed. Please try again later.",
+          loading: false,
+        });
+      });
+  };
+
+  const clickSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: false, loading: true });
+    signIn({ email, password });
+  };
 
   return (
-    <section className=" min-h-fit  flex items-center justify-center mt-12">
+    <section className="min-h-fit flex items-center justify-center mt-12">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl items-center">
         <div className="md:w-1/2 px-8 md:px-16">
           <h2 className="font-bold text-2xl text-[#002D74]">Login</h2>
@@ -91,7 +86,7 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Email"
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
               value={email}
             />
             <div className="relative">
@@ -103,7 +98,6 @@ const Login = () => {
                 onChange={handleChange("password")}
                 value={password}
               />
-              
             </div>
 
             <button
@@ -114,8 +108,6 @@ const Login = () => {
               Login
             </button>
           </form>
-          
-
 
           <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
             <hr className="border-gray-400" />
@@ -155,7 +147,7 @@ const Login = () => {
           </div>
 
           <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
-            <p>Don t have an account?</p>
+            <p>Don’t have an account?</p>
             <Link to="/signup">
               <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">
                 Register
@@ -164,14 +156,12 @@ const Login = () => {
           </div>
         </div>
 
-        <div className="md:block hidden w-1/2 ">
-          <img className="rounded-2xl " src={logo} alt="Login" />
+        <div className="md:block hidden w-1/2">
+          <img className="rounded-2xl" src={logo} alt="Login" />
         </div>
       </div>
     </section>
-    
   );
-  
 };
 
 export default Login;

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/lloyd-dirks-R1oSj2m-7Ks-unsplash.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -25,15 +26,15 @@ const Signup = () => {
       },
       body: JSON.stringify(user),
     })
-      .then( async(response) => {
+      .then(async (response) => {
         console.log("Raw response:", response);
 
         if (!response.ok) {
-          const errorDetails = await response.json();  
+          const errorDetails = await response.json();
           console.error("Error details:", errorDetails);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-      
+
         return response.json();
       })
       .catch((err) => {
@@ -73,6 +74,7 @@ const Signup = () => {
             error: "",
             success: true,
           });
+          navigate("/");
         }
       })
       .catch((error) => {
