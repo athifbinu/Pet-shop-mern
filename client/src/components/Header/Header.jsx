@@ -78,7 +78,7 @@ const Header = () => {
             </ul>
           </div>
 
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center hidden sm:flex">
             <Link to="watchList">
               <span className="cursor-pointer">
                 <FiHeart className="text-red-500" size={22} />

@@ -62,9 +62,9 @@ const Home = () => {
     <div>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-rose-100 to-teal-100 py-36">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="w-1/2">
-            <h2 className="text-3xl font-bold mb-5">
+        <div className="container mx-auto grid md:grid-cols-2 sm:grid-cols-1 items-center">
+          <div className="">
+            <h2 className="lg:text-3xl md:text-2xl font-bold mb-5">
               Mtm Veterinary Medicines <br />& PetShop
             </h2>
             <p className="text-lg mb-6">The Heaven Of Your Pets</p>
@@ -73,32 +73,42 @@ const Home = () => {
             </button>
           </div>
           <div>
-            <img src={heroImage} alt="Hero" />
+            <img className="hidden sm:block" src={heroImage} alt="Hero" />
           </div>
         </div>
       </section>
 
       {/* About Us Section */}
-      <section className="bg-white py-28">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="w-1/2">
-            <img className="w-80 rounded-xl " src={aboutImage} alt="About Us" />
-          </div>
-          <div className="w-1/2">
-            <div className="pl-8">
-              <h2 className="text-3xl font-bold mb-5">About Us</h2>
-              <p className="text-lg mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                vel felis a nunc rutrum dignissim. Vivamus eu arcu nec libero
-                sagittis volutpat.
-              </p>
-              <p className="text-lg mb-6">
-                Integer vehicula eu nisi vel convallis. Sed euismod lorem a
-                tortor varius, vel aliquam augue malesuada.
-              </p>
-              <button className="bg-primary text-white hover:bg-primary hover:text-white focus:outline-none rounded-md px-4 py-2">
-                <Link to="/about">Learn More</Link>
-              </button>
+      <section className="bg-white py-16 sm:py-28">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Image Section */}
+            <div className="w-full">
+              <img
+                className="sm:h-1/2 sm:w-64 md:h-1/2 md:w-1/2"
+                src={aboutImage}
+                alt="About Us"
+              />
+            </div>
+            {/* Text Section */}
+            <div className="w-full">
+              <div className="md:pl-8 sm:pl-0">
+                <h2 className="text-2xl md:text-3xl font-bold mb-5">
+                  About Us
+                </h2>
+                <p className="text-base md:text-lg mb-6">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Nullam vel felis a nunc rutrum dignissim. Vivamus eu arcu nec
+                  libero sagittis volutpat.
+                </p>
+                <p className="text-base md:text-lg mb-6">
+                  Integer vehicula eu nisi vel convallis. Sed euismod lorem a
+                  tortor varius, vel aliquam augue malesuada.
+                </p>
+                <button className="bg-primary text-white hover:bg-primary-dark focus:outline-none rounded-md px-6 py-3">
+                  <Link to="/about">Learn More</Link>
+                </button>
+              </div>
             </div>
           </div>
         </div>
