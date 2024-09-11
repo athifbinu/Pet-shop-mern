@@ -25,6 +25,7 @@ mongoose
   
 //import routes
 import authRouter from "./routes/auth.js"
+import categoryRouter from "./routes/category.js"
 
 // middleware
 app.use(bodyParser.json())
@@ -44,7 +45,7 @@ app.use(cors(corsOptions))
 
 app.use('/api',authRouter)
 // app.use('/api',userRouter)
-// app.use('/api',categoryRouter)
+app.use('/api',categoryRouter)
 // app.use('/api',productRouter)
 
 const port = process.env.PORT || 8000;
