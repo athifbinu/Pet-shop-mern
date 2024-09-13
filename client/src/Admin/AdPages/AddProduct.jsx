@@ -104,21 +104,19 @@ const AddProduct = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="Description"
-                  className="block text-gray-700 text-xl font-bold mb-4"
+                  htmlFor="Product Name"
+                  className="block text-gray-700 text-xl font-bold mb-2"
                 >
-                  Description
+                  Product short description
                 </label>
                 <input
                   type="text"
                   className="w-full text-lg px-3 border font-bold rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10"
-                  placeholder="Enter Product Description"
-                  value={ProductDesc}
-                  onChange={(e) => setProductDesc(e.target.value)}
+                  placeholder="Enter Product short desciprtion"
                 />
               </div>
 
-              <div className="flex gap-11  items-center  mb-3">
+              <div className="flex gap-7  items-center  mb-3">
                 <div>
                   <label
                     htmlFor="Prise"
@@ -170,80 +168,46 @@ const AddProduct = () => {
                     </option>
                   </select>
                 </div>
-              </div>
 
-              <div className="flex items-center justify-between  mb-3">
                 <div>
                   <span className=" text-gray-700 text-xl font-bold ">
-                    Brand
+                    Offers
                   </span>
 
-                  <select
-                    className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                    value={Brand}
-                    onChange={(e) => setBrand(e.target.value)}
-                  >
-                    <option className="text-lg">Select Category</option>
+                  <select className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold">
+                    <option className="text-2xl">Select Offers</option>
                     <option className="text-2xl" value="Meals">
-                      Meals
+                      10 %
                     </option>
                     <option className="text-2xl" value="Arabian Food">
-                      Arabian Food
+                      20 %
                     </option>
 
                     <option className="text-2xl" value="Burger">
-                      Burgers
+                      30 %
                     </option>
                     <option className="text-2xl" value="Juices">
-                      juices
+                      40 %
                     </option>
                     <option className="text-2xl" value="Sandwiches">
-                      Sandwiches
-                    </option>
-                    <option className="text-2xl" value="IceCreams">
-                      IceCreams
-                    </option>
-                    <option className="text-2xl" value="Pizzas">
-                      Pizzas
+                      50 %
                     </option>
                   </select>
                 </div>
+              </div>
 
-                <div className="ml-12">
-                  <span className=" text-gray-700 text-xl font-bold ">
-                    Offer
-                  </span>
-
-                  <select
-                    className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                    value={Offer}
-                    onChange={(e) => setOffer(e.target.value)}
-                  >
-                    <option className="text-2xl">Select Category</option>
-                    <option className="text-2xl" value="Meals">
-                      Meals
-                    </option>
-                    <option className="text-2xl" value="Arabian Food">
-                      Arabian Food
-                    </option>
-
-                    <option className="text-2xl" value="Burger">
-                      Burgers
-                    </option>
-                    <option className="text-2xl" value="Juices">
-                      juices
-                    </option>
-                    <option className="text-2xl" value="Sandwiches">
-                      Sandwiches
-                    </option>
-                    <option className="text-2xl" value="IceCreams">
-                      IceCreams
-                    </option>
-                    <option className="text-2xl" value="Pizzas">
-                      Pizzas
-                    </option>
-                  </select>
-                </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="manufacture-details"
+                  className="block text-gray-700 text-xl font-semibold mb-2"
+                >
+                  Manufacture Details
+                </label>
+                <textarea
+                  id="manufacture-details"
+                  className="w-full p-3 text-lg text-gray-700 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out h-32 resize-none"
+                  placeholder="Enter manufacture details"
+                ></textarea>
               </div>
 
               <div className="">
