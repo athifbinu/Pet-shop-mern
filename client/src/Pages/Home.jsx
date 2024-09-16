@@ -16,6 +16,7 @@ import Star from "../assets/icons/review.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaCartArrowDown } from "react-icons/fa6";
 
 const Home = () => {
   const settings = {
@@ -63,7 +64,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-rose-100 to-teal-100 py-36">
         <div className="container mx-auto grid md:grid-cols-2 sm:grid-cols-1 items-center">
-          <div className="">
+          <div className="sm:m-auto">
             <h2 className="lg:text-3xl md:text-2xl font-bold mb-5">
               Mtm Veterinary Medicines <br />& PetShop
             </h2>
@@ -248,6 +249,7 @@ const Home = () => {
           </Slider>
         </div>
       </section>
+
     </div>
   );
 };
