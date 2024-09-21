@@ -145,10 +145,10 @@ const AddProduct = () => {
                   >
                     <option className="text-2xl">Select Category</option>
                     <option className="text-2xl" value="Meals">
-                      Meals
+                      Dog Foods
                     </option>
                     <option className="text-2xl" value="Arabian Food">
-                      Arabian Food
+                      Cats Foods
                     </option>
 
                     <option className="text-2xl" value="Burger">

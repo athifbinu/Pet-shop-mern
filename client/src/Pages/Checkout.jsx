@@ -18,7 +18,7 @@ const Checkout = () => {
     <div className="container">
       <section className="mt-24">
         <h1 className="text-2xl font-bold mb-5">Fille the form</h1>
-        <div className="flex justify-between">
+        <div className="grid md:grid-cols-2  sm:grid-cols-1">
           <div>
             <div>
               <form action="">
