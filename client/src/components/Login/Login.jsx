@@ -19,7 +19,7 @@ const Login = () => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  const signIn = (user) => {
+  const Login = (user) => {
     return fetch(`http://localhost:8000/api/signin`, {
       method: "POST",
       headers: {
@@ -68,7 +68,7 @@ const Login = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
-    signIn({ email, password });
+    Login({ email, password });
   };
 
   return (

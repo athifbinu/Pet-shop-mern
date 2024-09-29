@@ -9,9 +9,7 @@ import Swal from "sweetalert2";
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
-
   const [ProductImage, setProductImage] = useState("");
-
   const [ProductName, setProductName] = useState("");
   const [ProductDesc, setProductDesc] = useState("");
   const [ProductCategory, setProductCategory] = useState("");
@@ -21,50 +19,39 @@ const AddProduct = () => {
 
   const addProduct = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
+    const formData = new FormData();
+    formData.append("ProductName", ProductName);
+    formData.append("ProductDesc", ProductDesc);
+    formData.append("ProductCategory", ProductCategory);
+    formData.append("Price", Price);
+    formData.append("Offer", Offer);
+    formData.append("Brand", Brand);
+    formData.append("ProductImage", ProductImage);
+
     try {
-      const docRef = await collection(db, "Products");
-      const storageRef = ref(
-        storage,
-        `ProductImages/${Date.now() + ProductImage.name}`
-      );
-      const uploadTask = uploadBytesResumable(storageRef, ProductImage);
+      const response = await axios.post("api", formData, {
+        // headers: {
+        //   ""
+        // },
+      });
 
-      uploadTask.on(
-        () => {
-          setLoading(false);
-          Swal.fire({
-            icon: "error",
-            title: "Image Not Uploaded",
-          });
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await addDoc(docRef, {
-              ImgUrl: downloadURL,
-            });
-
-            console.log("ImgUrl =", downloadURL);
-
-            setLoading(false);
-            Swal.fire({
-              icon: "success",
-              title: "Success!",
-              text: "Product  added successfully.",
-            });
-          });
-        }
-      );
-    } catch (err) {
+      if (response.status === 201) {
+        setLoading(false);
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Product added successfully.",
+        });
+      }
+    } catch (error) {
       setLoading(false);
-
-      console.log(err);
+      console.error("Error adding product", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "An error occurred while adding the Product.",
+        text: "An error occurred while adding the product.",
       });
     }
   };
