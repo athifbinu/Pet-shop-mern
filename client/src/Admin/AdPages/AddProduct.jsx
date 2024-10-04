@@ -131,27 +131,60 @@ const AddProduct = () => {
                     onChange={(e) => setProductCategory(e.target.value)}
                   >
                     <option className="text-2xl">Select Category</option>
-                    <option className="text-2xl" value="Meals">
+                    <option className="text-2xl" value="Dog Foods">
                       Dog Foods
                     </option>
-                    <option className="text-2xl" value="Arabian Food">
+                    <option className="text-2xl" value="Cat Foods">
                       Cats Foods
                     </option>
 
-                    <option className="text-2xl" value="Burger">
-                      Burgers
+                    <option className="text-2xl" value="Fish Foods">
+                      Fish Foods
                     </option>
-                    <option className="text-2xl" value="Juices">
-                      juices
+                    <option className="text-2xl" value="Pet Medicines">
+                      Pet Medicines
                     </option>
-                    <option className="text-2xl" value="Sandwiches">
-                      Sandwiches
+                    <option
+                      className="text-2xl"
+                      value="Large animals Medicines"
+                    >
+                      Large animals medicines
                     </option>
-                    <option className="text-2xl" value="IceCreams">
-                      IceCreams
+                    <option className="text-2xl" value="Poultry Medicines">
+                      Poultry medicines
                     </option>
-                    <option className="text-2xl" value="Pizzas">
-                      Pizzas
+                    <option className="text-2xl" value="Toys">
+                      Toys
+                    </option>
+                    <option className="text-2xl" value="Cat Treats">
+                      Cat Treats
+                    </option>
+                    <option className="text-2xl" value="Dog Treats">
+                      Dog Treats
+                    </option>
+                    <option className="text-2xl" value="Grooming">
+                      Grooming
+                    </option>
+                    <option className="text-2xl" value="Feeders">
+                      Feeders
+                    </option>
+                    <option className="text-2xl" value="Cat Litters">
+                      Cat Litters
+                    </option>
+                    <option className="text-2xl" value="Poultry Vaccines">
+                      Poultry Vaccines
+                    </option>
+                    <option className="text-2xl" value="Pet Vaccines">
+                      Pet Vaccines
+                    </option>
+                    <option className="text-2xl" value="Cages">
+                      Cages
+                    </option>
+                    <option className="text-2xl" value="Fish Tanks">
+                      Fish Tanks
+                    </option>
+                    <option className="text-2xl" value="Sugary">
+                      Surgery
                     </option>
                   </select>
                 </div>
