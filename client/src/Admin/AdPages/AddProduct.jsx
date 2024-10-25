@@ -148,115 +148,65 @@ const AddProduct = () => {
                 {/* Modal */}
                 {isModalOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-                      <h2 className="text-xl font-semibold mb-4">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
+                      <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
                         Modal Title
                       </h2>
-                      <div>
-                        <div className="grid lg:grid-cols-2 gap-4 mb-6">
-                          <div>
-                            <span className=" text-gray-700 text-xl font-bold ">
-                              Category
-                            </span>
 
-                            <select
-                              className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                              value={ProductCategory}
-                              onChange={(e) =>
-                                setProductCategory(e.target.value)
-                              }
-                            >
-                              <option className="text-2xl">
-                                Mane Category
-                              </option>
-                              <option className="text-2xl" value="Dog Foods">
-                                Dog Foods
-                              </option>
-                              <option className="text-2xl" value="Cat Foods">
-                                Cats Foods
-                              </option>
-
-                              <option className="text-2xl" value="Fish Foods">
-                                Fish Foods
-                              </option>
-                              <option
-                                className="text-2xl"
-                                value="Pet Medicines"
-                              >
-                                Pet Medicines
-                              </option>
-                              <option
-                                className="text-2xl"
-                                value="Large animals Medicines"
-                              >
-                                Large animals medicines
-                              </option>
-                              <option
-                                className="text-2xl"
-                                value="Poultry Medicines"
-                              >
-                                Poultry medicines
-                              </option>
-                              <option className="text-2xl" value="Toys">
-                                Toys
-                              </option>
-                            </select>
-                          </div>
-                          <div>
-                            <span className=" text-gray-700 text-xl font-bold ">
-                              Category
-                            </span>
-
-                            <select
-                              className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                              value={ProductCategory}
-                              onChange={(e) =>
-                                setProductCategory(e.target.value)
-                              }
-                            >
-                              <option className="text-2xl">Sub Category</option>
-                              <option className="text-2xl" value="Dog Foods">
-                                Dog Foods
-                              </option>
-                              <option className="text-2xl" value="Cat Foods">
-                                Cats Foods
-                              </option>
-
-                              <option className="text-2xl" value="Fish Foods">
-                                Fish Foods
-                              </option>
-                              <option
-                                className="text-2xl"
-                                value="Pet Medicines"
-                              >
-                                Pet Medicines
-                              </option>
-                              <option
-                                className="text-2xl"
-                                value="Large animals Medicines"
-                              >
-                                Large animals medicines
-                              </option>
-                              <option
-                                className="text-2xl"
-                                value="Poultry Medicines"
-                              >
-                                Poultry medicines
-                              </option>
-                              <option className="text-2xl" value="Toys">
-                                Toys
-                              </option>
-                            </select>
+                      <form>
+                        <div className="container mb-10">
+                          <div className="grid md:grid-cols-2 ">
+                            <div>
+                              <label className="text-gray-600 font-medium ">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                            <div className="mb-6">
+                              <label className="text-gray-600 font-medium mb-1">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-gray-600 font-medium mb-1">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-gray-600 font-medium mb-1">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex justify-between">
-                        <button className="px-4 py-2 text-white bg-orange-400 rounded-md hover:bg-red-600">
-                          add
+                        <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500">
+                          Submit
                         </button>
+                      </form>
+
+                      <div className="flex justify-end gap-4 mt-6">
                         <button
                           onClick={closeModal}
-                          className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+                          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                         >
                           Close
                         </button>
