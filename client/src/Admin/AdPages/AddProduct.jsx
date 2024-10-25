@@ -30,6 +30,12 @@ const AddProduct = () => {
     formData.append("Brand", Brand);
     formData.append("ProductImage", ProductImage);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Step 2: Toggle modal visibility
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     try {
       const response = await axios.post("api", formData, {
         // headers: {
@@ -55,6 +61,12 @@ const AddProduct = () => {
       });
     }
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Step 2: Toggle modal visibility
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <section className="flex first-line:items-center h-screen  p-10  gap-11">
@@ -121,73 +133,137 @@ const AddProduct = () => {
                 </div>
 
                 <div>
-                  <span className=" text-gray-700 text-xl font-bold ">
-                    Category
+                  <span className=" text-gray-700 text-xl font-bold  ">
+                    Add Category
                   </span>
 
-                  <select
-                    className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                    value={ProductCategory}
-                    onChange={(e) => setProductCategory(e.target.value)}
+                  <button
+                    onClick={openModal}
+                    className="bg-orange-400 hover:bg-orange-600  text-white px-2 text-2xl rounded-lg font-medium h-10"
                   >
-                    <option className="text-2xl">Select Category</option>
-                    <option className="text-2xl" value="Dog Foods">
-                      Dog Foods
-                    </option>
-                    <option className="text-2xl" value="Cat Foods">
-                      Cats Foods
-                    </option>
-
-                    <option className="text-2xl" value="Fish Foods">
-                      Fish Foods
-                    </option>
-                    <option className="text-2xl" value="Pet Medicines">
-                      Pet Medicines
-                    </option>
-                    <option
-                      className="text-2xl"
-                      value="Large animals Medicines"
-                    >
-                      Large animals medicines
-                    </option>
-                    <option className="text-2xl" value="Poultry Medicines">
-                      Poultry medicines
-                    </option>
-                    <option className="text-2xl" value="Toys">
-                      Toys
-                    </option>
-                    <option className="text-2xl" value="Cat Treats">
-                      Cat Treats
-                    </option>
-                    <option className="text-2xl" value="Dog Treats">
-                      Dog Treats
-                    </option>
-                    <option className="text-2xl" value="Grooming">
-                      Grooming
-                    </option>
-                    <option className="text-2xl" value="Feeders">
-                      Feeders
-                    </option>
-                    <option className="text-2xl" value="Cat Litters">
-                      Cat Litters
-                    </option>
-                    <option className="text-2xl" value="Poultry Vaccines">
-                      Poultry Vaccines
-                    </option>
-                    <option className="text-2xl" value="Pet Vaccines">
-                      Pet Vaccines
-                    </option>
-                    <option className="text-2xl" value="Cages">
-                      Cages
-                    </option>
-                    <option className="text-2xl" value="Fish Tanks">
-                      Fish Tanks
-                    </option>
-                    <option className="text-2xl" value="Sugary">
-                      Surgery
-                    </option>
-                  </select>
+                    Category
+                  </button>
                 </div>
+
+                {/* Modal */}
+                {isModalOpen && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                      <h2 className="text-xl font-semibold mb-4">
+                        Modal Title
+                      </h2>
+                      <div>
+                        <div className="grid lg:grid-cols-2 gap-4 mb-6">
+                          <div>
+                            <span className=" text-gray-700 text-xl font-bold ">
+                              Category
+                            </span>
+
+                            <select
+                              className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
+                              value={ProductCategory}
+                              onChange={(e) =>
+                                setProductCategory(e.target.value)
+                              }
+                            >
+                              <option className="text-2xl">
+                                Mane Category
+                              </option>
+                              <option className="text-2xl" value="Dog Foods">
+                                Dog Foods
+                              </option>
+                              <option className="text-2xl" value="Cat Foods">
+                                Cats Foods
+                              </option>
+
+                              <option className="text-2xl" value="Fish Foods">
+                                Fish Foods
+                              </option>
+                              <option
+                                className="text-2xl"
+                                value="Pet Medicines"
+                              >
+                                Pet Medicines
+                              </option>
+                              <option
+                                className="text-2xl"
+                                value="Large animals Medicines"
+                              >
+                                Large animals medicines
+                              </option>
+                              <option
+                                className="text-2xl"
+                                value="Poultry Medicines"
+                              >
+                                Poultry medicines
+                              </option>
+                              <option className="text-2xl" value="Toys">
+                                Toys
+                              </option>
+                            </select>
+                          </div>
+                          <div>
+                            <span className=" text-gray-700 text-xl font-bold ">
+                              Category
+                            </span>
+
+                            <select
+                              className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
+                              value={ProductCategory}
+                              onChange={(e) =>
+                                setProductCategory(e.target.value)
+                              }
+                            >
+                              <option className="text-2xl">Sub Category</option>
+                              <option className="text-2xl" value="Dog Foods">
+                                Dog Foods
+                              </option>
+                              <option className="text-2xl" value="Cat Foods">
+                                Cats Foods
+                              </option>
+
+                              <option className="text-2xl" value="Fish Foods">
+                                Fish Foods
+                              </option>
+                              <option
+                                className="text-2xl"
+                                value="Pet Medicines"
+                              >
+                                Pet Medicines
+                              </option>
+                              <option
+                                className="text-2xl"
+                                value="Large animals Medicines"
+                              >
+                                Large animals medicines
+                              </option>
+                              <option
+                                className="text-2xl"
+                                value="Poultry Medicines"
+                              >
+                                Poultry medicines
+                              </option>
+                              <option className="text-2xl" value="Toys">
+                                Toys
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex justify-between">
+                        <button className="px-4 py-2 text-white bg-orange-400 rounded-md hover:bg-red-600">
+                          add
+                        </button>
+                        <button
+                          onClick={closeModal}
+                          className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <span className=" text-gray-700 text-xl font-bold ">
