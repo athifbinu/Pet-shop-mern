@@ -9,9 +9,7 @@ import Swal from "sweetalert2";
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
-
   const [ProductImage, setProductImage] = useState("");
-
   const [ProductName, setProductName] = useState("");
   const [ProductDesc, setProductDesc] = useState("");
   const [ProductCategory, setProductCategory] = useState("");
@@ -21,53 +19,54 @@ const AddProduct = () => {
 
   const addProduct = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
+    const formData = new FormData();
+    formData.append("ProductName", ProductName);
+    formData.append("ProductDesc", ProductDesc);
+    formData.append("ProductCategory", ProductCategory);
+    formData.append("Price", Price);
+    formData.append("Offer", Offer);
+    formData.append("Brand", Brand);
+    formData.append("ProductImage", ProductImage);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Step 2: Toggle modal visibility
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     try {
-      const docRef = await collection(db, "Products");
-      const storageRef = ref(
-        storage,
-        `ProductImages/${Date.now() + ProductImage.name}`
-      );
-      const uploadTask = uploadBytesResumable(storageRef, ProductImage);
+      const response = await axios.post("api", formData, {
+        // headers: {
+        //   ""
+        // },
+      });
 
-      uploadTask.on(
-        () => {
-          setLoading(false);
-          Swal.fire({
-            icon: "error",
-            title: "Image Not Uploaded",
-          });
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await addDoc(docRef, {
-              ImgUrl: downloadURL,
-            });
-
-            console.log("ImgUrl =", downloadURL);
-
-            setLoading(false);
-            Swal.fire({
-              icon: "success",
-              title: "Success!",
-              text: "Product  added successfully.",
-            });
-          });
-        }
-      );
-    } catch (err) {
+      if (response.status === 201) {
+        setLoading(false);
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Product added successfully.",
+        });
+      }
+    } catch (error) {
       setLoading(false);
-
-      console.log(err);
+      console.error("Error adding product", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "An error occurred while adding the Product.",
+        text: "An error occurred while adding the product.",
       });
     }
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Step 2: Toggle modal visibility
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <section className="flex first-line:items-center h-screen  p-10  gap-11">
@@ -104,21 +103,19 @@ const AddProduct = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="Description"
-                  className="block text-gray-700 text-xl font-bold mb-4"
+                  htmlFor="Product Name"
+                  className="block text-gray-700 text-xl font-bold mb-2"
                 >
-                  Description
+                  Product short description
                 </label>
                 <input
                   type="text"
                   className="w-full text-lg px-3 border font-bold rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10"
-                  placeholder="Enter Product Description"
-                  value={ProductDesc}
-                  onChange={(e) => setProductDesc(e.target.value)}
+                  placeholder="Enter Product short desciprtion"
                 />
               </div>
 
-              <div className="flex gap-11  items-center  mb-3">
+              <div className="flex gap-7  items-center  mb-3">
                 <div>
                   <label
                     htmlFor="Prise"
@@ -136,114 +133,127 @@ const AddProduct = () => {
                 </div>
 
                 <div>
-                  <span className=" text-gray-700 text-xl font-bold ">
-                    Category
+                  <span className=" text-gray-700 text-xl font-bold  ">
+                    Add Category
                   </span>
 
-                  <select
-                    className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                    value={ProductCategory}
-                    onChange={(e) => setProductCategory(e.target.value)}
+                  <button
+                    onClick={openModal}
+                    className="bg-orange-400 hover:bg-orange-600  text-white px-2 text-2xl rounded-lg font-medium h-10"
                   >
-                    <option className="text-2xl">Select Category</option>
+                    Category
+                  </button>
+                </div>
+
+                {/* Modal */}
+                {isModalOpen && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
+                      <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
+                        Modal Title
+                      </h2>
+
+                      <form>
+                        <div className="container mb-10">
+                          <div className="grid md:grid-cols-2 ">
+                            <div>
+                              <label className="text-gray-600 font-medium ">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                            <div className="mb-6">
+                              <label className="text-gray-600 font-medium mb-1">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-gray-600 font-medium mb-1">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-gray-600 font-medium mb-1">
+                                Add Category
+                              </label>
+                              <input
+                                className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
+                                type="text"
+                                placeholder="Enter category"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <button className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500">
+                          Submit
+                        </button>
+                      </form>
+
+                      <div className="flex justify-end gap-4 mt-6">
+                        <button
+                          onClick={closeModal}
+                          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <span className=" text-gray-700 text-xl font-bold ">
+                    Offers
+                  </span>
+
+                  <select className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold">
+                    <option className="text-2xl">Select Offers</option>
                     <option className="text-2xl" value="Meals">
-                      Meals
+                      10 %
                     </option>
                     <option className="text-2xl" value="Arabian Food">
-                      Arabian Food
+                      20 %
                     </option>
 
                     <option className="text-2xl" value="Burger">
-                      Burgers
+                      30 %
                     </option>
                     <option className="text-2xl" value="Juices">
-                      juices
+                      40 %
                     </option>
                     <option className="text-2xl" value="Sandwiches">
-                      Sandwiches
-                    </option>
-                    <option className="text-2xl" value="IceCreams">
-                      IceCreams
-                    </option>
-                    <option className="text-2xl" value="Pizzas">
-                      Pizzas
+                      50 %
                     </option>
                   </select>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between  mb-3">
-                <div>
-                  <span className=" text-gray-700 text-xl font-bold ">
-                    Brand
-                  </span>
-
-                  <select
-                    className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                    value={Brand}
-                    onChange={(e) => setBrand(e.target.value)}
-                  >
-                    <option className="text-lg">Select Category</option>
-                    <option className="text-2xl" value="Meals">
-                      Meals
-                    </option>
-                    <option className="text-2xl" value="Arabian Food">
-                      Arabian Food
-                    </option>
-
-                    <option className="text-2xl" value="Burger">
-                      Burgers
-                    </option>
-                    <option className="text-2xl" value="Juices">
-                      juices
-                    </option>
-                    <option className="text-2xl" value="Sandwiches">
-                      Sandwiches
-                    </option>
-                    <option className="text-2xl" value="IceCreams">
-                      IceCreams
-                    </option>
-                    <option className="text-2xl" value="Pizzas">
-                      Pizzas
-                    </option>
-                  </select>
-                </div>
-
-                <div className="ml-12">
-                  <span className=" text-gray-700 text-xl font-bold ">
-                    Offer
-                  </span>
-
-                  <select
-                    className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold"
-                    value={Offer}
-                    onChange={(e) => setOffer(e.target.value)}
-                  >
-                    <option className="text-2xl">Select Category</option>
-                    <option className="text-2xl" value="Meals">
-                      Meals
-                    </option>
-                    <option className="text-2xl" value="Arabian Food">
-                      Arabian Food
-                    </option>
-
-                    <option className="text-2xl" value="Burger">
-                      Burgers
-                    </option>
-                    <option className="text-2xl" value="Juices">
-                      juices
-                    </option>
-                    <option className="text-2xl" value="Sandwiches">
-                      Sandwiches
-                    </option>
-                    <option className="text-2xl" value="IceCreams">
-                      IceCreams
-                    </option>
-                    <option className="text-2xl" value="Pizzas">
-                      Pizzas
-                    </option>
-                  </select>
-                </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="manufacture-details"
+                  className="block text-gray-700 text-xl font-semibold mb-2"
+                >
+                  Manufacture Details
+                </label>
+                <textarea
+                  id="manufacture-details"
+                  className="w-full p-3 text-lg text-gray-700 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out h-32 resize-none"
+                  placeholder="Enter manufacture details"
+                ></textarea>
               </div>
 
               <div className="">

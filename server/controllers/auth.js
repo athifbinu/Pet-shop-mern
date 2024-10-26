@@ -26,6 +26,9 @@ export const signup = async (req, res) => {
   }
 };
 
+
+     
+
 export const signIn = async (req, res) => {
   try {
     //find the user based on email
@@ -35,6 +38,7 @@ export const signIn = async (req, res) => {
       return res.status(400).json({
         error: " User not found",
       });
+
     }
     if (user) {
       //make sure the email and password match
@@ -67,30 +71,17 @@ export const signOut = async (req, res) => {
 
 // midelwares
 export const requireSignin = expressJwt({
-  secret: process.env.JWTSECRET,
+
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+    userProperty: "auth",
+
+  secret: process.env.JWT_SECRET,
   algorithms: ["HS256"],
   userProperty: "auth",
+
 });
 
-// exports.isAuth = (req, res, next) =>{
-//     const user = req.profile && req.auth && req.profile._id == req.auth._id
-//     if(!user){
-//         res.status(403).json({
-//             error :"Access denied"
-//         })
-//     }
-
-//     next()
-// }
-
-// exports.isAdmin = (req, res, next)=>{
-//     if(req.profile.role===0){
-//         return res.status(403).json({
-//             error : "Admin resourse! Access denied"
-//         })
-//     }
-//     next()
-// }
 
 export const isAuth = (req, res, next) => {
   console.log("req.profile._id-----------", req.profile._id);
@@ -110,27 +101,6 @@ export const isAuth = (req, res, next) => {
   next();
 };
 
-// exports.isAuth = (req, res, next) => {
-//     console.log("req.profile._id:", req.profile?._id);
-//     console.log("req.auth._id:", req.auth?._id);
-
-//     // Convert ObjectId to string for comparison
-//     const profileId = req.profile._id.toString();
-//     const authId = req.auth._id;
-
-//     // Compare as strings
-//     const user = profileId === authId;
-//     console.log("***************************************",authId);
-//     console.log("***************************************",profileId);
-
-//     if (!user) {
-//         console.log("isAuth: Access denied");
-//         return res.status(403).json({ error: "Access denied" });
-//     }
-
-//     console.log("isAuth: Access granted");
-//     next();
-// };
 
 export const isAdmin = (req, res, next) => {
   if (req.profile.role === false) {
@@ -143,4 +113,7 @@ export const isAdmin = (req, res, next) => {
   next();
 };
 
-export default { signup, signIn };
+
+
+export default { signup, signIn,signOut, requireSignin,isAdmin, isAuth };
+

@@ -25,6 +25,8 @@ mongoose
   
 //import routes
 import authRouter from "./routes/auth.js"
+import categoryRouter from "./routes/category.js"
+import productRouter from "./routes/product.js"
 
 // middleware
 app.use(bodyParser.json())
@@ -33,7 +35,7 @@ app.use(cookieParser())
 // app.use(expressValidator())
 
 const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your frontend URL
+  origin: 'http://localhost:5173', // Replace with your frontend URL
   methods: 'GET,POST,PUT,DELETE',  // Specify the methods you want to allow
   allowedHeaders: 'Content-Type,Authorization' // Specify the headers you want to allow
 };
@@ -44,7 +46,7 @@ app.use(cors(corsOptions))
 
 app.use('/api',authRouter)
 // app.use('/api',userRouter)
-// app.use('/api',categoryRouter)
-// app.use('/api',productRouter)
+app.use('/api',categoryRouter)
+app.use('/api',productRouter)
 
 const port = process.env.PORT || 8000;

@@ -1,9 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/images/amber-kipp-75715CVEJhI-unsplash.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Updated import
+import Swal from "sweetalert2";
+
 const Login = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    error: "",
+    loading: false,
+    redirectToRefferrer: false,
+  });
+
+  const { email, password, error, loading } = values;
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+
+  const Login = (user) => {
+    return fetch(`http://localhost:8000/api/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data) {
+          setValues({
+            ...values,
+            error: "Something went wrong. Please try again.",
+            loading: false,
+          });
+          return;
+        }
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error,
+            loading: false,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Login Successful",
+            text: "Welcome aboard! Your login was successful.",
+            confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/");
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setValues({
+          ...values,
+          error: "Request failed. Please try again later.",
+          loading: false,
+        });
+      });
+  };
+
+  const clickSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: false, loading: true });
+    Login({ email, password });
+  };
+
   return (
-    <section className=" min-h-fit  flex items-center justify-center mt-12">
+    <section className="min-h-fit flex items-center justify-center mt-12">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl items-center">
         <div className="md:w-1/2 px-8 md:px-16">
           <h2 className="font-bold text-2xl text-[#002D74]">Login</h2>
@@ -17,6 +86,8 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Email"
+              onChange={handleChange("email")}
+              value={email}
             />
             <div className="relative">
               <input
@@ -24,11 +95,14 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                onChange={handleChange("password")}
+                value={password}
               />
             </div>
 
             <button
               type="submit"
+              onClick={clickSubmit}
               className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
             >
               Login
@@ -73,7 +147,7 @@ const Login = () => {
           </div>
 
           <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
-            <p>Don t have an account?</p>
+            <p>Don’t have an account?</p>
             <Link to="/signup">
               <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">
                 Register
@@ -82,8 +156,8 @@ const Login = () => {
           </div>
         </div>
 
-        <div className="md:block hidden w-1/2 ">
-          <img className="rounded-2xl " src={logo} alt="Login" />
+        <div className="md:block hidden w-1/2">
+          <img className="rounded-2xl" src={logo} alt="Login" />
         </div>
       </div>
     </section>
