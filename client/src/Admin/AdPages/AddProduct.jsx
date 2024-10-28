@@ -5,9 +5,6 @@ import Banner from "../../assets/images/mane.png";
 import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../../Firebase/FirebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-
-import { isAuthenticated } from "../../auth";
-import { API } from "../../config"
 import Swal from "sweetalert2";
 
 import { isAuthenticated } from "../../auth";
