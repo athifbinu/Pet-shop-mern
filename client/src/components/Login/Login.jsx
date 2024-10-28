@@ -38,6 +38,7 @@ const Login = () => {
           });
           return;
         }
+  
         if (data.error) {
           setValues({
             ...values,
@@ -45,6 +46,13 @@ const Login = () => {
             loading: false,
           });
         } else {
+          // Save the token in localStorage if login is successful
+          localStorage.setItem("token", JSON.stringify(data.token));
+  
+          // Save user data in localStorage (optional)
+          localStorage.setItem("user", JSON.stringify(data.user));
+  
+          // Display success message and navigate
           Swal.fire({
             icon: "success",
             title: "Login Successful",
@@ -64,6 +72,7 @@ const Login = () => {
         });
       });
   };
+  
 
   const clickSubmit = (event) => {
     event.preventDefault();

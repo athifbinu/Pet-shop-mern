@@ -6,13 +6,18 @@ export const authenticate = (data, next)=>{
   }
 
 
-  export const isAuthenticated = ()=>{
-    if (typeof window == "undefined"){
-      return false
+  export const isAuthenticated = () => {
+    if (typeof window === 'undefined') {
+      return false;
     }
-    if(localStorage.getItem("jwt")){
-      return JSON.parse(localStorage.getItem('jwt'))
-    }else {
-      return false
+  
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      // Parse and return token and user if JWT exists
+      const { token, user } = JSON.parse(jwt);
+      return { token, user };
+    } else {
+      return false;
     }
-  }
+  };
+  
