@@ -7,6 +7,8 @@ import { db, storage } from "../../Firebase/FirebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Swal from "sweetalert2";
 
+import { isAuthenticated } from "../../auth";
+
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const [ProductImage, setProductImage] = useState("");
@@ -23,6 +25,8 @@ const AddProduct = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const { user, token} = isAuthenticated()
 
 
   const addProduct = async (e) => {
@@ -70,14 +74,15 @@ const AddProduct = () => {
 
  
   // add Category Function
-  const newCategoryAdded = (categoryName)=>{
-    return fetch('http://localhost:8000/api//category/create/:userId',{
+  const newCategoryAdded = (userId, token, category)=>{
+    return fetch(`http://localhost:8000/api/category/create/${userId}`,{
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization : `Bearer ${token}`
       },
-      body: JSON.stringify({ name: categoryName }) 
+      body: JSON.stringify(  category) 
     })
     .then(response => response.json())
     .catch(err => {
@@ -87,7 +92,7 @@ const AddProduct = () => {
   const addCategory = (event) => {
     event.preventDefault();
     console.log("Category:", catName);
-     newCategoryAdded(catName)
+     newCategoryAdded(user._id, token,{catName})
      .then(data => {
       console.log("Response:", data);
       closeModal(); // Close modal after submitting category

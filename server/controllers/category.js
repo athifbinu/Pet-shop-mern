@@ -3,9 +3,10 @@ import { errorHandler } from "../helpers/dbErrorHandler.js";
 
 export const create = async (req, res)=>{
     try {
-        console.log("req.body");
+        console.log("req.body" , req.body);
+        const { catName } = req.body
         
-        const data = new Category(req.body)
+        const data = new Category({ name: catName });
                     await data.save()
                     res.json({
                         data
