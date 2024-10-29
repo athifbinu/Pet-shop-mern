@@ -8,6 +8,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Swal from "sweetalert2";
 
 import { isAuthenticated } from "../../auth";
+import axios from "axios";
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
@@ -19,15 +20,13 @@ const AddProduct = () => {
   const [Offer, setOffer] = useState("");
   const [Brand, setBrand] = useState("");
 
-
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
   const [catName, setCatName] = useState(""); // Category name input state
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const { user, token} = isAuthenticated()
-
+  const { user, token } = isAuthenticated();
 
   const addProduct = async (e) => {
     e.preventDefault();
@@ -42,14 +41,14 @@ const AddProduct = () => {
     formData.append("Brand", Brand);
     formData.append("ProductImage", ProductImage);
 
-  
-
     try {
-      const response = await axios.post("api", formData, {
-        // headers: {
-        //   ""
-        // },
-      });
+      const response = await fetch(
+        `http://localhost:8000/api/product/create/${userId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.status === 201) {
         setLoading(false);
@@ -58,6 +57,8 @@ const AddProduct = () => {
           title: "Success!",
           text: "Product added successfully.",
         });
+      } else {
+        throw new Error("Failed to add product");
       }
     } catch (error) {
       setLoading(false);
@@ -70,39 +71,30 @@ const AddProduct = () => {
     }
   };
 
-  
-
- 
   // add Category Function
-  const newCategoryAdded = (userId, token, category)=>{
-    return fetch(`http://localhost:8000/api/category/create/${userId}`,{
+  const newCategoryAdded = (userId, token, category) => {
+    return fetch(`http://localhost:8000/api/category/create/${userId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization : `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(  category) 
+      body: JSON.stringify(category),
     })
-    .then(response => response.json())
-    .catch(err => {
-      console.log(err);
-    });
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const addCategory = (event) => {
     event.preventDefault();
     console.log("Category:", catName);
-     newCategoryAdded(user._id, token,{catName})
-     .then(data => {
+    newCategoryAdded(user._id, token, { catName }).then((data) => {
       console.log("Response:", data);
       closeModal(); // Close modal after submitting category
     });
-};
-
-     
-
-
- 
+  };
 
   return (
     <section className="flex first-line:items-center h-screen  p-10  gap-11">
@@ -118,13 +110,14 @@ const AddProduct = () => {
           </div>
 
           <div className="w-1/2">
+            {/* Add CARTEGORY */}
 
-          {/* Add CARTEGORY */}
-
-           <div>
+            <div>
               <div className="mb-10">
                 <h2 className="text-3xl font-bold">Add Category</h2>
-                <h4 className="text-lg font-semibold mb-6">If you want add new Category please add from here.</h4>
+                <h4 className="text-lg font-semibold mb-6">
+                  If you want add new Category please add from here.
+                </h4>
                 <button
                   onClick={openModal}
                   className="bg-orange-400 hover:bg-orange-600 text-white px-2 text-2xl rounded-lg font-medium h-10"
@@ -179,8 +172,6 @@ const AddProduct = () => {
               )}
             </div>
 
-
-
             <h2 className="text-3xl font-bold mb-6">Add Product detail's </h2>
             <form onSubmit={addProduct}>
               <div className="mb-3">
@@ -230,8 +221,6 @@ const AddProduct = () => {
                     onChange={(e) => Setprice(e.target.value)}
                   />
                 </div>
-
-             
 
                 <div>
                   <span className=" text-gray-700 text-xl font-bold ">
