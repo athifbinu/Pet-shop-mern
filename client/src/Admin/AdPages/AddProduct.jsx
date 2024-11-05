@@ -10,6 +10,9 @@ import Swal from "sweetalert2";
 import { isAuthenticated } from "../../auth";
 import axios from "axios";
 
+import { NewCategoryForm } from "../AdComponents/adminPageComponents/MainCategory";
+import { NewSub_CategoryForm } from "../AdComponents/adminPageComponents/SubCategory";
+
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const [ProductImage, setProductImage] = useState("");
@@ -20,12 +23,8 @@ const AddProduct = () => {
   const [Offer, setOffer] = useState("");
   const [Brand, setBrand] = useState("");
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
-  const [catName, setCatName] = useState(""); // Category name input state
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
+ 
+  
   const { user, token } = isAuthenticated();
 
   const addProduct = async (e) => {
@@ -72,29 +71,11 @@ const AddProduct = () => {
   };
 
   // add Category Function
-  const newCategoryAdded = (userId, token, category) => {
-    return fetch(`http://localhost:8000/api/category/create/${userId}`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(category),
-    })
-      .then((response) => response.json())
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const addCategory = (event) => {
-    event.preventDefault();
-    console.log("Category:", catName);
-    newCategoryAdded(user._id, token, { catName }).then((data) => {
-      console.log("Response:", data);
-      closeModal(); // Close modal after submitting category
-    });
-  };
+ 
+
+  // add Sub_Category Function
+
+ 
 
   return (
     <section className="flex first-line:items-center h-screen  p-10  gap-11">
@@ -111,69 +92,23 @@ const AddProduct = () => {
 
           <div className="w-1/2">
             {/* Add CARTEGORY */}
+            <NewCategoryForm/>
 
-            <div>
-              <div className="mb-10">
-                <h2 className="text-3xl font-bold">Add Category</h2>
-                <h4 className="text-lg font-semibold mb-6">
-                  If you want add new Category please add from here.
-                </h4>
-                <button
-                  onClick={openModal}
-                  className="bg-orange-400 hover:bg-orange-600 text-white px-2 text-2xl rounded-lg font-medium h-10"
-                >
-                  Category
-                </button>
-              </div>
+          
 
-              {/* Modal */}
-              {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                  <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
-                    <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
-                      Add New Category
-                    </h2>
-
-                    <form onSubmit={addCategory}>
-                      <div className="container mb-10">
-                        <div className="grid md:grid-cols-2">
-                          <div>
-                            <label className="text-gray-600 font-medium">
-                              Add Category
-                            </label>
-                            <input
-                              className="p-2 border border-gray-300 rounded-md text-gray-700 focus:border-orange-500 focus:outline-none"
-                              type="text"
-                              placeholder="Enter category"
-                              onChange={(e) => setCatName(e.target.value)}
-                              value={catName}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        type="submit"
-                        className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500"
-                      >
-                        Submit
-                      </button>
-                    </form>
-
-                    <div className="flex justify-end gap-4 mt-6">
-                      <button
-                        onClick={closeModal}
-                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* Add Sub_Category */}
+            <NewSub_CategoryForm/>
+          
 
             <h2 className="text-3xl font-bold mb-6">Add Product detail's </h2>
             <form onSubmit={addProduct}>
+
+              <div>
+             
+          
+
+
+              </div>
               <div className="mb-3">
                 <label
                   htmlFor="Product Name"

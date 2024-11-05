@@ -1,7 +1,7 @@
 import formidable from "formidable";
 import fs from "fs/promises";
 import Product from "../models/product.js";
-import Category from "../models/category.js";
+import {Category} from "../models/category.js";
 import { errorHandler } from "../helpers/dbErrorHandler.js";
 import _ from "lodash";
 import { error, log } from "console";

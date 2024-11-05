@@ -36,9 +36,9 @@ export const errorHandler = error => {
                message = "Something went wrong";
        }
    } else {
-       for (let errorName in error.errorors) {
-           if (error.errorors[errorName].message)
-               message = error.errorors[errorName].message;
+       for (let errorName in error.errors) {
+           if (error.errors[errorName].message)
+               message = error.errors[errorName].message;
        }
    }
 
