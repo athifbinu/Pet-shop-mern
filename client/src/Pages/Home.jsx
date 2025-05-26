@@ -18,6 +18,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaCartArrowDown } from "react-icons/fa6";
 
+import testimg from "../assets/categoys/dogCategoryimage.jpg";
+
 const Home = () => {
   const settings = {
     dots: false,
@@ -58,6 +60,50 @@ const Home = () => {
       },
     ],
   };
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  const categories = [
+    { id: 1, name: "Dog Food", image: testimg },
+    { id: 2, name: "Cat Food", image: testimg },
+    { id: 3, name: "Bird Food", image: testimg },
+    { id: 4, name: "Fish Food", image: testimg },
+    { id: 5, name: "Rabbit Food", image: testimg },
+    { id: 6, name: "Hamster Food", image: testimg },
+  ];
 
   return (
     <div>
@@ -115,7 +161,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* slider Categories */}
       <section>
         <div className="container mb-8">
           <div className="flex gap-4 items-center justify-center">
@@ -125,8 +171,28 @@ const Home = () => {
           </div>
           <br />
           <br />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-5 ">
-            <CategorysCard />
+          <div>
+            <Slider {...sliderSettings}>
+              {categories.map((category) => (
+                <div key={category.id} className="slick-slide mx-4">
+                  <div className="max-w-sm rounded-lg shadow-lg overflow-hidden border bg-white p-3">
+                    <img
+                      className="w-full"
+                      src={category.image}
+                      alt={category.name}
+                    />
+                    <div className="p-4 text-center">
+                      <h3 className="text-xl font-semibold text-gray-800">
+                        {category.name}
+                      </h3>
+                      <button className="mt-4 px-6 py-2 bg-orange-500 border-none text-white rounded-lg hover:bg-orange-600">
+                        Explore
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Slider>
           </div>
         </div>
       </section>

@@ -10,13 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.2",
     "@react-pdf/renderer": "^3.1.14",
     "@reduxjs/toolkit": "^1.9.7",
+    "@supabase/supabase-js": "^2.49.7",
     "axios": "^1.7.7",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "emailjs": "^4.0.3",
     "firebase": "^10.4.0",
     "framer-motion": "^10.16.4",
+    "lucide-react": "^0.511.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
@@ -25,7 +30,9 @@
     "react-slick": "^0.29.0",
     "recharts": "^2.9.0",
     "slick-carousel": "^1.8.1",
-    "sweetalert2": "^11.12.4"
+    "sweetalert2": "^11.6.13",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

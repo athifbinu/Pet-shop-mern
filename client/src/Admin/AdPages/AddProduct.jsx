@@ -1,225 +1,164 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ImSpinner } from "react-icons/im";
+import { supabase } from "../../components/supabase/supabaseClient.js"; // adjust path if needed
 
-import Banner from "../../assets/images/mane.png";
-import { collection, addDoc } from "firebase/firestore";
-import { db, storage } from "../../Firebase/FirebaseConfig";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import Swal from "sweetalert2";
-
-import { isAuthenticated } from "../../auth";
-import axios from "axios";
-
-import { NewCategoryForm } from "../AdComponents/adminPageComponents/MainCategory";
-import { NewSub_CategoryForm } from "../AdComponents/adminPageComponents/SubCategory";
+const categoryOptions = {
+  "Shop pets": ["Dog", "Cat", "Fish", "Birds", "Rabbit", "Others"],
+  Pharmacy: ["Dog Medicine", "Cat Medicine", "Supplements", "Vitamins"],
+  Toys: ["Chew Toys", "Interactive Toys", "Balls"],
+  Grooming: ["Shampoos", "Combs", "Nail Clippers"],
+  Cages: ["Bird Cages", "Dog Crates", "Cat Carriers"],
+};
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
-  const [ProductImage, setProductImage] = useState("");
-  const [ProductName, setProductName] = useState("");
-  const [ProductDesc, setProductDesc] = useState("");
-  const [ProductCategory, setProductCategory] = useState("");
-  const [Price, Setprice] = useState("");
-  const [Offer, setOffer] = useState("");
-  const [Brand, setBrand] = useState("");
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const fileInputRef = useRef(null);
 
- 
-  
-  const { user, token } = isAuthenticated();
-
-  const addProduct = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!imageFile) return alert("Please upload an image.");
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("ProductName", ProductName);
-    formData.append("ProductDesc", ProductDesc);
-    formData.append("ProductCategory", ProductCategory);
-    formData.append("Price", Price);
-    formData.append("Offer", Offer);
-    formData.append("Brand", Brand);
-    formData.append("ProductImage", ProductImage);
-
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/product/create/${userId}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const fileExt = imageFile.name.split(".").pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `products/${fileName}`;
 
-      if (response.status === 201) {
-        setLoading(false);
-        Swal.fire({
-          icon: "success",
-          title: "Success!",
-          text: "Product added successfully.",
-        });
-      } else {
-        throw new Error("Failed to add product");
+      const { error: uploadError } = await supabase.storage
+        .from("product-images")
+        .upload(filePath, imageFile);
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from("product-images")
+        .getPublicUrl(filePath);
+
+      const { error: insertError } = await supabase.from("products").insert([
+        {
+          name: productName,
+          price: Number(price),
+          category,
+          subcategory: subCategory,
+          description,
+          image_url: publicUrlData.publicUrl,
+        },
+      ]);
+
+      if (insertError) throw insertError;
+
+      alert("Product added successfully!");
+
+      // Reset form
+      setProductName("");
+      setPrice("");
+      setCategory("");
+      setSubCategory("");
+      setDescription("");
+      setImageFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null; // Reset file input
       }
     } catch (error) {
+      console.error("Error adding product:", error.message);
+      alert("Failed to add product.");
+    } finally {
       setLoading(false);
-      console.error("Error adding product", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "An error occurred while adding the product.",
-      });
     }
   };
 
-  // add Category Function
- 
-
-  // add Sub_Category Function
-
- 
-
   return (
-    <section className="flex first-line:items-center h-screen  p-10  gap-11">
-      {loading ? (
-        <ImSpinner
-          size={60}
-          className="mx-auto animate-spin text-orange-600 text-4xl mt-[200px]"
+    <div className="max-w-3xl mx-auto py-10 px-4">
+      <h2 className="text-3xl font-bold mb-6 text-center">Add Product</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <input
+          type="text"
+          placeholder="Product Name"
+          className="w-full p-3 border rounded"
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+          required
         />
-      ) : (
-        <>
-          <div className="hidden  flex-1 lg:flex w-1/2 ">
-            <img src={Banner} className="w-full rounded-xl" alt="" />
-          </div>
+        <input
+          type="number"
+          placeholder="Price"
+          className="w-full p-3 border rounded"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+        />
 
-          <div className="w-1/2">
-            {/* Add CARTEGORY */}
-            <NewCategoryForm/>
+        <select
+          className="w-full p-3 border rounded"
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setSubCategory("");
+          }}
+          required
+        >
+          <option value="">Select Category</option>
+          {Object.keys(categoryOptions).map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
 
-          
+        {category && categoryOptions[category] && (
+          <select
+            className="w-full p-3 border rounded"
+            value={subCategory}
+            onChange={(e) => setSubCategory(e.target.value)}
+            required
+          >
+            <option value="">Select Subcategory</option>
+            {categoryOptions[category].map((sub) => (
+              <option key={sub} value={sub}>
+                {sub}
+              </option>
+            ))}
+          </select>
+        )}
 
-            {/* Add Sub_Category */}
-            <NewSub_CategoryForm/>
-          
+        <textarea
+          placeholder="Product Description"
+          className="w-full p-3 border rounded h-28"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
 
-            <h2 className="text-3xl font-bold mb-6">Add Product detail's </h2>
-            <form onSubmit={addProduct}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files[0])}
+          className="w-full"
+          required
+          ref={fileInputRef}
+        />
 
-              <div>
-             
-          
-
-
-              </div>
-              <div className="mb-3">
-                <label
-                  htmlFor="Product Name"
-                  className="block text-gray-700 text-xl font-bold mb-2"
-                >
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full text-lg px-3 border font-bold rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10"
-                  placeholder="Enter Product Name"
-                  value={ProductName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label
-                  htmlFor="Product Name"
-                  className="block text-gray-700 text-xl font-bold mb-2"
-                >
-                  Product short description
-                </label>
-                <input
-                  type="text"
-                  className="w-full text-lg px-3 border font-bold rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10"
-                  placeholder="Enter Product short desciprtion"
-                />
-              </div>
-
-              <div className="flex gap-7  items-center  mb-3">
-                <div>
-                  <label
-                    htmlFor="Prise"
-                    className="block text-gray-700 text-xl font-bold mb-4"
-                  >
-                    Prise
-                  </label>
-                  <input
-                    type="number"
-                    className="w-full text-lg px-3 border font-bold rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10"
-                    placeholder="Enter Product Prize"
-                    value={Price}
-                    onChange={(e) => Setprice(e.target.value)}
-                  />
-                </div>
-
-                <div>
-                  <span className=" text-gray-700 text-xl font-bold ">
-                    Offers
-                  </span>
-
-                  <select className="w-full mt-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 h-10 font-bold">
-                    <option className="text-2xl">Select Offers</option>
-                    <option className="text-2xl" value="Meals">
-                      10 %
-                    </option>
-                    <option className="text-2xl" value="Arabian Food">
-                      20 %
-                    </option>
-
-                    <option className="text-2xl" value="Burger">
-                      30 %
-                    </option>
-                    <option className="text-2xl" value="Juices">
-                      40 %
-                    </option>
-                    <option className="text-2xl" value="Sandwiches">
-                      50 %
-                    </option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label
-                  htmlFor="manufacture-details"
-                  className="block text-gray-700 text-xl font-semibold mb-2"
-                >
-                  Manufacture Details
-                </label>
-                <textarea
-                  id="manufacture-details"
-                  className="w-full p-3 text-lg text-gray-700 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out h-32 resize-none"
-                  placeholder="Enter manufacture details"
-                ></textarea>
-              </div>
-
-              <div className="">
-                <span className=" block text-gray-700 text-2xl font-bold mb-2 ">
-                  Image
-                </span>
-                <input
-                  type="file"
-                  className="font-medium "
-                  onChange={(e) => setProductImage(e.target.files[0])}
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="bg-orange-400 hover:bg-orange-600  text-white px-4 text-2xl rounded-lg font-medium h-12 w-52 mt-5"
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </>
-      )}
-    </section>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded font-bold text-lg"
+        >
+          {loading ? (
+            <>
+              <ImSpinner className="animate-spin inline-block mr-2" />
+              Uploading...
+            </>
+          ) : (
+            "Add Product"
+          )}
+        </button>
+      </form>
+    </div>
   );
 };
 

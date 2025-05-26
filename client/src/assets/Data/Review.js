@@ -1,6 +1,6 @@
 import personOne from "../Review/Frame_10132.avif";
 
- const review = [
+const review = [
   {
     id: "1",
     img: personOne,
@@ -53,4 +53,4 @@ import personOne from "../Review/Frame_10132.avif";
   },
 ];
 
-export default review
+export default review;
