@@ -21,6 +21,7 @@ const ListProducts = () => {
     if (error) {
       console.error("Error fetching products:", error.message);
     } else {
+      console.log("Fetched products:", data);
       setProducts(data);
     }
     setLoading(false);
@@ -38,6 +39,7 @@ const ListProducts = () => {
 
     const { error } = await supabase.from("products").delete().eq("id", id);
     if (error) {
+      console.error("Error deleting product:", error.message);
       alert("Error deleting product");
     } else {
       alert("Product deleted successfully");
@@ -68,6 +70,7 @@ const ListProducts = () => {
       .eq("id", editProduct.id);
 
     if (error) {
+      console.error("Error updating product:", error.message);
       alert("Error updating product");
     } else {
       alert("Product updated successfully");

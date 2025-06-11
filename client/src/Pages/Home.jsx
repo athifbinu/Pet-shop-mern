@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import heroImage from "../assets/images/mane.png";
 import aboutImage from "../assets/images/about.png";
@@ -19,8 +19,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { FaCartArrowDown } from "react-icons/fa6";
 
 import testimg from "../assets/categoys/dogCategoryimage.jpg";
+import { useEffect } from "react";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -207,8 +211,8 @@ const Home = () => {
           </div>
           <br />
           <br />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-5 ">
-            <CategorysCard />
+          <div className=" ">
+            <CategorysCard filterCategory="Shop pets" />
           </div>
         </div>
       </section>
@@ -227,13 +231,56 @@ const Home = () => {
         <div className="container mb-8">
           <div className="flex gap-4 items-center justify-center">
             <img className="w-11" src={star} alt="Star Icon" />
-            <span className="text-3xl font-bold">Shop by Poultry</span>
+            <span className="text-3xl font-bold">Shop by Toys</span>
             <img className="w-11" src={star} alt="Star Icon" />
           </div>
           <br />
           <br />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-5 ">
-            <CategorysCard />
+          <div className="">
+            <CategorysCard filterCategory="Toys" />
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container mb-8">
+          <div className="flex gap-4 items-center justify-center">
+            <img className="w-11" src={star} alt="Star Icon" />
+            <span className="text-3xl font-bold">Shop by Cages</span>
+            <img className="w-11" src={star} alt="Star Icon" />
+          </div>
+          <br />
+          <br />
+          <div className="">
+            <CategorysCard filterCategory="Cages" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <div className="container mb-8">
+          <div className="flex gap-4 items-center justify-center">
+            <img className="w-11" src={star} alt="Star Icon" />
+            <span className="text-3xl font-bold">Shop by Pharmacy</span>
+            <img className="w-11" src={star} alt="Star Icon" />
+          </div>
+          <br />
+          <br />
+          <div className="">
+            <CategorysCard filterCategory="Pharmacy" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <div className="container mb-8">
+          <div className="flex gap-4 items-center justify-center">
+            <img className="w-11" src={star} alt="Star Icon" />
+            <span className="text-3xl font-bold">Shop Grooming</span>
+            <img className="w-11" src={star} alt="Star Icon" />
+          </div>
+          <br />
+          <br />
+          <div className="">
+            <CategorysCard filterCategory="Grooming" />
           </div>
         </div>
       </section>
