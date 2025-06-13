@@ -349,7 +349,7 @@ const ProductDetailes = () => {
             )}
           </div>
         </div>
-
+        {/* 
         <section>
           <div className="">
             <h1 className="text-center text-3xl font-bold">
@@ -372,7 +372,7 @@ const ProductDetailes = () => {
               <ProductCard />
             </Slider>
           </div>
-        </section>
+        </section> */}
       </div>
     </section>
   );
