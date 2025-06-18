@@ -4,7 +4,7 @@ const ProductCard = ({ item }) => {
   return (
     <div className="relative m-3 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
       <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
-        <Link to="/details">
+        <Link to="/details" state={{ product: item }}>
           <img
             src={item.image_url}
             alt={item.name}
@@ -21,9 +21,14 @@ const ProductCard = ({ item }) => {
             </span>
           </p>
         </div>
-        <button className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700">
-          Add to cart
-        </button>
+        <div className="flex justify-between">
+          <button className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700">
+            Add to cart
+          </button>
+          <button className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700">
+            buy now
+          </button>
+        </div>
       </div>
     </div>
   );
