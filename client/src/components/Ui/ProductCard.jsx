@@ -1,6 +1,14 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../Redux/Slices/CartSlice";
 
 const ProductCard = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(cartActions.addItem(item)); // ✅ works now
+  };
   return (
     <div className="relative m-3 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
       <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
@@ -21,14 +29,13 @@ const ProductCard = ({ item }) => {
             </span>
           </p>
         </div>
-        <div className="flex justify-between">
-          <button className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700">
-            Add to cart
-          </button>
-          <button className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700">
-            buy now
-          </button>
-        </div>
+
+        <button
+          className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700"
+          onClick={addToCart}
+        >
+          Add to cart
+        </button>
       </div>
     </div>
   );
