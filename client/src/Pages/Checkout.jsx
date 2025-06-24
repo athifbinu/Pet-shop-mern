@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdArrowBackIosNew } from "react-icons/md";
 import CountryDrop from "../components/Ui/CountryDrop";
+import { supabase } from "../components/supabase/supabaseClient";
 
-// Icons
+// Payment Icons
 import gp from "../assets/icons/google-pay.png";
 import pt from "../assets/icons/Paytm-Logo.wine.svg";
 import pn from "../assets/icons/PhonePe-Logo.wine.svg";
@@ -16,6 +17,7 @@ const Checkout = () => {
   const { cartItems, totalAmount, totalQuantity } = useSelector(
     (state) => state.cart
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -30,22 +32,30 @@ const Checkout = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const adminPhone = "7594013460"; // ✅ Replace with real admin number
+    if (cartItems.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
 
-    const products = cartItems
-      .map(
-        (item, index) =>
-          `\n${index + 1}. ${item.productName} - ₹${item.price} x ${
-            item.quantity
-          } = ₹${item.price * item.quantity}`
-      )
-      .join("");
+    setIsLoading(true);
+
+    const adminPhone = "7594013460";
+
+    const productList = cartItems.map((item) => ({
+      name: item.productName,
+      price: item.price,
+      quantity: item.quantity,
+      total: item.price * item.quantity,
+    }));
 
     const message = `🛒 *New Order Received!*
 
@@ -58,24 +68,63 @@ Address: ${formData.address}, ${formData.landmark}, ${formData.city}, ${
     }, ${formData.country}
 
 📦 *Order Summary*
-${products}
+${productList
+  .map(
+    (p, i) => `${i + 1}. ${p.name} - ₹${p.price} x ${p.quantity} = ₹${p.total}`
+  )
+  .join("\n")}
 
 🧾 Subtotal: ₹${totalAmount}
 🚚 Shipping: ₹10
 💰 Total: ₹${totalAmount + 10}`;
 
-    const url = `https://wa.me/${adminPhone}?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(url, "_blank");
+    try {
+      const { data, error } = await supabase.from("orders").insert([
+        {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          landmark: formData.landmark,
+          city: formData.city,
+          country: formData.country,
+          pincode: formData.pincode,
+          items: productList,
+          subtotal: totalAmount,
+          shipping: 10,
+          total: totalAmount + 10,
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase error:", error);
+        alert("Failed to place order. Please try again.");
+        setIsLoading(false);
+        return;
+      }
+
+      // ✅ Open WhatsApp
+      const waUrl = `https://wa.me/${adminPhone}?text=${encodeURIComponent(
+        message
+      )}`;
+      window.open(waUrl, "_blank");
+
+      alert("Order placed successfully!");
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="container px-4">
       <section className="mt-24">
-        <h1 className="text-2xl font-bold mb-5">Checkout Form</h1>
+        <h1 className="text-2xl font-bold mb-5">Checkout</h1>
         <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-10">
-          {/* Left: Billing Form */}
+          {/* Left: Form */}
           <div>
             <form onSubmit={handleSubmit}>
               <div className="flex gap-3 mb-5">
@@ -99,52 +148,44 @@ ${products}
                 />
               </div>
 
-              <div className="mb-5">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="p-2 w-full border rounded-md"
-                  placeholder="Email"
-                  required
-                />
-              </div>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="p-2 mb-5 w-full border rounded-md"
+                placeholder="Email"
+                required
+              />
 
-              <div className="mb-5">
-                <input
-                  type="number"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="p-2 w-full border rounded-md"
-                  placeholder="Phone Number"
-                  required
-                />
-              </div>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="p-2 mb-5 w-full border rounded-md"
+                placeholder="Phone Number"
+                required
+              />
 
-              <div className="mb-5">
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="p-2 w-full border rounded-md"
-                  placeholder="Address"
-                  required
-                />
-              </div>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="p-2 mb-5 w-full border rounded-md"
+                placeholder="Address"
+                required
+              />
 
-              <div className="mb-5">
-                <input
-                  type="text"
-                  name="landmark"
-                  value={formData.landmark}
-                  onChange={handleChange}
-                  className="p-2 w-full border rounded-md"
-                  placeholder="Landmark"
-                />
-              </div>
+              <input
+                type="text"
+                name="landmark"
+                value={formData.landmark}
+                onChange={handleChange}
+                className="p-2 mb-5 w-full border rounded-md"
+                placeholder="Landmark"
+              />
 
               <div className="flex gap-3 mb-5">
                 <input
@@ -171,28 +212,29 @@ ${products}
                   value={formData.pincode}
                   onChange={handleChange}
                   className="p-2 w-full border rounded-md"
-                  placeholder="Pin Code"
+                  placeholder="Pincode"
                   required
                 />
               </div>
 
               <div className="flex justify-between mt-10 mb-14">
-                <div className="flex items-center cursor-pointer text-gray-600">
+                <div className="flex items-center text-gray-600">
                   <MdArrowBackIosNew />
                   <p>Return</p>
                 </div>
+
                 <button
                   type="submit"
+                  disabled={isLoading}
                   className="bg-black text-white py-3 px-8 rounded-lg font-semibold hover:bg-gray-800 uppercase"
                 >
-                  Send to WhatsApp
+                  {isLoading ? "Processing..." : "Place Order"}
                 </button>
               </div>
 
-              {/* Payment Options */}
               <div className="flex justify-between items-center">
                 {[gp, pt, pn, ms, bhim, mc, vs].map((icon, i) => (
-                  <img key={i} className="w-12" src={icon} alt="pay option" />
+                  <img key={i} className="w-12" src={icon} alt="pay icon" />
                 ))}
               </div>
             </form>
@@ -200,7 +242,7 @@ ${products}
 
           {/* Right: Cart Summary */}
           <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-6">Your Order</h2>
+            <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
             {cartItems.length === 0 ? (
               <p className="text-gray-500">Your cart is empty.</p>
             ) : (
@@ -225,7 +267,6 @@ ${products}
               ))
             )}
 
-            {/* Totals */}
             <div className="mt-5">
               <div className="flex justify-between mb-2">
                 <p className="font-medium">Subtotal</p>
