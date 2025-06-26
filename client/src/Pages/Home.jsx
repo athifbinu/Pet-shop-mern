@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import heroImage from "../assets/images/mane.png";
 import aboutImage from "../assets/images/about.png";
@@ -19,11 +19,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { FaCartArrowDown } from "react-icons/fa6";
 
 import testimg from "../assets/categoys/dogCategoryimage.jpg";
-import { useEffect } from "react";
+
+import { supabase } from "../components/supabase/supabaseClient";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mainCategories, setMainCategories] = useState([]);
 
   const settings = {
     dots: false,
@@ -69,45 +70,53 @@ const Home = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    arrows: true,
     responsive: [
       {
         breakpoint: 1024,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 1,
-          infinite: true,
-        },
+        settings: { slidesToShow: 2 },
       },
       {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
+        breakpoint: 640,
+        settings: { slidesToShow: 1 },
       },
     ],
   };
 
-  const categories = [
-    { id: 1, name: "Dog Food", image: testimg },
-    { id: 2, name: "Cat Food", image: testimg },
-    { id: 3, name: "Bird Food", image: testimg },
-    { id: 4, name: "Fish Food", image: testimg },
-    { id: 5, name: "Rabbit Food", image: testimg },
-    { id: 6, name: "Hamster Food", image: testimg },
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("category, image_url")
+          .order("created_at", { ascending: true });
+
+        if (error) throw error;
+
+        // Group by unique categories and pick first image per category
+        const categoryMap = {};
+        data.forEach((product) => {
+          if (!categoryMap[product.category]) {
+            categoryMap[product.category] = product.image_url;
+          }
+        });
+
+        const formattedCategories = Object.entries(categoryMap).map(
+          ([name, image]) => ({
+            name,
+            image,
+          })
+        );
+
+        setMainCategories(formattedCategories);
+      } catch (err) {
+        console.error("Error fetching categories:", err.message);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div>
@@ -168,36 +177,40 @@ const Home = () => {
       {/* slider Categories */}
       <section>
         <div className="container mb-8">
-          <div className="flex gap-4 items-center justify-center">
-            <img className="w-11" src={star} alt="Star Icon" />
-            <span className="text-3xl font-bold">Shop by Categories</span>
-            <img className="w-11" src={star} alt="Star Icon" />
-          </div>
-          <br />
-          <br />
-          <div>
-            <Slider {...sliderSettings}>
-              {categories.map((category) => (
-                <div key={category.id} className="slick-slide mx-4">
-                  <div className="max-w-sm rounded-lg shadow-lg overflow-hidden border bg-white p-3">
-                    <img
-                      className="w-full"
-                      src={category.image}
-                      alt={category.name}
-                    />
-                    <div className="p-4 text-center">
-                      <h3 className="text-xl font-semibold text-gray-800">
-                        {category.name}
-                      </h3>
-                      <button className="mt-4 px-6 py-2 bg-orange-500 border-none text-white rounded-lg hover:bg-orange-600">
-                        Explore
-                      </button>
+          {mainCategories.length > 0 && (
+            <div className="mb-10">
+              <h3 className="text-2xl font-bold mb-4 text-center text-gray-700">
+                Explore Categories
+              </h3>
+              <Slider {...sliderSettings}>
+                {mainCategories.map((category, index) => (
+                  <div key={index} className="px-3">
+                    <div className="rounded-lg shadow-lg overflow-hidden border bg-white p-3">
+                      <img
+                        className="w-full h-40 object-cover"
+                        src={category.image}
+                        alt={category.name}
+                      />
+                      <div className="p-4 text-center">
+                        <h3 className="text-xl font-semibold text-gray-800">
+                          {category.name}
+                        </h3>
+                        <button
+                          className="mt-4 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+                          onClick={() => {
+                            setCategory(category.name);
+                            setSubCategory(""); // reset subcategory
+                          }}
+                        >
+                          Select
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
+                ))}
+              </Slider>
+            </div>
+          )}
         </div>
       </section>
 

@@ -12,10 +12,12 @@ import { Link } from "react-router-dom";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { FaHireAHelper } from "react-icons/fa";
 import { LiaBusinessTimeSolid } from "react-icons/lia";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [openDrop, setOpenDrop] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { totalAmount, totalQuantity } = useSelector((state) => state.cart);
 
   const handleOpen = () => {
     setOpenDrop(!openDrop);
@@ -99,8 +101,8 @@ const Header = () => {
                 </span>
 
                 <div>
-                  <p>2 items</p>
-                  Rs 96
+                  <p>{totalQuantity} items</p>
+                  Rs {totalAmount}
                 </div>
               </div>
             </div>

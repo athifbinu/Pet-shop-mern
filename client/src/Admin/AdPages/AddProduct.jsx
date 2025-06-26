@@ -103,7 +103,7 @@ const AddProduct = () => {
           }}
           required
         >
-          <option value="">Select Category</option>
+          <option value="">Mane Category</option>
           {Object.keys(categoryOptions).map((cat) => (
             <option key={cat} value={cat}>
               {cat}
