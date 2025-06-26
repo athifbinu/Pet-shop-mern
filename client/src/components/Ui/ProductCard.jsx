@@ -1,41 +1,99 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../Redux/Slices/CartSlice";
+import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
-    dispatch(cartActions.addItem(item)); // ✅ works now
+    dispatch(cartActions.addItem(item));
   };
+
   return (
-    <div className="relative m-3 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-      <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
-        <Link to="/details" state={{ product: item }}>
+    <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200">
+      {/* Sale Badge (Optional) */}
+      {item.isOnSale && (
+        <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
+          Sale
+        </div>
+      )}
+
+      {/* Wishlist Button */}
+      <button className="absolute top-4 right-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-110 transition-all duration-200 group/heart">
+        <Heart className="w-5 h-5 text-gray-600 group-hover/heart:text-red-500 transition-colors duration-200" />
+      </button>
+
+      {/* Product Image */}
+      <Link to="/details" state={{ product: item }}>
+        <div className="relative overflow-hidden bg-gray-50 aspect-square">
           <img
             src={item.image_url}
             alt={item.name}
-            className="w-full h-48 object-cover rounded"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
-        </Link>
-      </div>
-      <div className="px-5 pb-5">
-        <h5 className="text-xl tracking-tight text-slate-900">{item.name}</h5>
-        <div className="mb-2 flex items-center gap-1">
-          <p>
-            <span className="text-2xl font-bold text-slate-900">
-              ₹{item.price}
-            </span>
-          </p>
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+        </div>
+      </Link>
+
+      {/* Product Info */}
+      <div className="p-6">
+        {/* Category */}
+        <span className="inline-block px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-sm font-medium rounded-full mb-3 border border-blue-100">
+          {item.category}
+        </span>
+
+        {/* Product Name */}
+        <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+          {item.name}
+        </h3>
+
+        {/* Rating (static fallback) */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-4 h-4 ${
+                  i < (item.rating || 4)
+                    ? "text-yellow-400 fill-current"
+                    : "text-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-sm text-gray-600">
+            {item.rating || 4} ({item.reviewCount || 20} reviews)
+          </span>
         </div>
 
-        <button
-          className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-white hover:bg-gray-700"
-          onClick={addToCart}
-        >
-          Add to cart
-        </button>
+        {/* Description */}
+        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+          {item.description}
+        </p>
+
+        {/* Price and Add to Cart */}
+        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold text-gray-900">
+              ₹{item.price}
+            </span>
+            {item.originalPrice && (
+              <span className="text-lg text-gray-500 line-through">
+                ₹{item.originalPrice}
+              </span>
+            )}
+          </div>
+
+          <button
+            onClick={addToCart}
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+          >
+            <ShoppingCart className="w-4 h-4" />
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
   );
