@@ -1,35 +1,56 @@
+// components/Ui/Likecard.jsx
 import React from "react";
-import test from "../../assets/8ce53529-21ab-44ea-8422-0259ceb700b4-1FriSyPl33ilsVe8kp_jcc-tyDm31DcFU.jpeg";
+import { useDispatch } from "react-redux";
+import { likeActions } from "../../Redux/Slices/LikeSlice";
+import { cartActions } from "../../Redux/Slices/CartSlice";
 
-const Likecard = () => {
+const Likecard = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(likeActions.removeFromLike(item.id));
+  };
+
+  const addTocart = () => {
+    dispatch(cartActions.addItem(item));
+  };
+
   return (
-    <div>
-      <div class="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-2xl">
-        <a
-          class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-          href="#"
-        >
-          <img class="object-cover" src={test} alt="product image" />
-          <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-            39% OFF
-          </span>
-        </a>
-        <div class="px-5 pb-5">
-          <a href="#">
-            <h5 class="text-xl tracking-tight text-slate-900">dog food</h5>
-          </a>
-          <div class="mb-2 flex items-center gap-1">
-            <p>
-              <span class="text-3xl font-bold text-slate-900">$449</span>
-              <span class="text-sm text-slate-900 line-through">$699</span>
-            </p>
+    <div className="flex justify-center p-6">
+      <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg hover:shadow-xl transition">
+        <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
+          <img
+            className="object-cover w-full h-full"
+            src={item.image_url}
+            alt={item.name}
+          />
+        </div>
+
+        <div className="px-5 py-4">
+          <h5 className="text-lg font-bold text-gray-800 mb-1">{item.name}</h5>
+
+          <div className="mb-3">
+            <span className="text-xl font-bold text-gray-900">
+              ₹{item.price}
+            </span>
+            {item.originalPrice && (
+              <span className="text-sm line-through text-gray-500 ml-2">
+                ₹{item.originalPrice}
+              </span>
+            )}
           </div>
 
-          <div className="flex justify-between">
-            <button className="bg-blue-400 font-medium   w-20 p-1 rounded hover:bg-blue-500">
-              Add to cart
+          <div className="flex justify-between gap-2">
+            <button
+              onClick={addTocart}
+              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg text-sm font-semibold"
+            >
+              Add to Cart
             </button>
-            <button className="bg-red-600 font-medium  w-20 p-1 rounded hover:bg-red-500">
+            <button
+              onClick={handleDelete}
+              className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm font-semibold"
+            >
               Delete
             </button>
           </div>

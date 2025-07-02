@@ -18,6 +18,7 @@ const Header = () => {
   const [openDrop, setOpenDrop] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { totalAmount, totalQuantity } = useSelector((state) => state.cart);
+  const { totellikeQuantity } = useSelector((state) => state.like);
 
   const handleOpen = () => {
     setOpenDrop(!openDrop);
@@ -82,8 +83,11 @@ const Header = () => {
 
           <div className="flex gap-3 items-center hidden sm:flex">
             <Link to="watchList">
-              <span className="cursor-pointer">
+              <span className="cursor-pointer relative">
                 <FiHeart className="text-red-500" size={22} />
+                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs px-1 rounded-full">
+                  {totellikeQuantity}
+                </span>
               </span>
             </Link>
 

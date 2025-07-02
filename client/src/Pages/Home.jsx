@@ -72,6 +72,7 @@ const Home = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    autoplay: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -185,25 +186,16 @@ const Home = () => {
               <Slider {...sliderSettings}>
                 {mainCategories.map((category, index) => (
                   <div key={index} className="px-3">
-                    <div className="rounded-lg shadow-lg overflow-hidden border bg-white p-3">
-                      <img
-                        className="w-full h-40 object-cover"
-                        src={category.image}
-                        alt={category.name}
-                      />
-                      <div className="p-4 text-center">
-                        <h3 className="text-xl font-semibold text-gray-800">
+                    <div className="bg-slate-300 rounded-full p-2">
+                      <div className="text-center rounded-md">
+                        <img
+                          className="w-32 mx-auto"
+                          src={category.image}
+                          alt=""
+                        />
+                        <h2 className="mt-4 text-black font-bold">
                           {category.name}
-                        </h3>
-                        <button
-                          className="mt-4 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
-                          onClick={() => {
-                            setCategory(category.name);
-                            setSubCategory(""); // reset subcategory
-                          }}
-                        >
-                          Select
-                        </button>
+                        </h2>
                       </div>
                     </div>
                   </div>

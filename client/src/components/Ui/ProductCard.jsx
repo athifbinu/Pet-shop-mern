@@ -1,31 +1,47 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../Redux/Slices/CartSlice";
+import { likeActions } from "../../Redux/Slices/LikeSlice";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
+  const likedItems = useSelector((state) => state.like.likedItems);
+
+  const isInWatchlist = likedItems.some((i) => i.id === item.id);
 
   const addToCart = () => {
     dispatch(cartActions.addItem(item));
   };
 
+  const toggleWatchlist = () => {
+    if (isInWatchlist) {
+      dispatch(likeActions.removeFromLike(item.id));
+    } else {
+      dispatch(likeActions.addToLike(item));
+    }
+  };
+
   return (
     <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200">
-      {/* Sale Badge (Optional) */}
       {item.isOnSale && (
         <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
           Sale
         </div>
       )}
 
-      {/* Wishlist Button */}
-      <button className="absolute top-4 right-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-110 transition-all duration-200 group/heart">
-        <Heart className="w-5 h-5 text-gray-600 group-hover/heart:text-red-500 transition-colors duration-200" />
+      <button
+        onClick={toggleWatchlist}
+        className="absolute top-4 right-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-110 transition-all duration-200 group/heart"
+      >
+        <Heart
+          className={`w-5 h-5 transition-colors duration-200 ${
+            isInWatchlist ? "text-red-500 fill-red-500" : "text-gray-600"
+          }`}
+        />
       </button>
 
-      {/* Product Image */}
       <Link to="/details" state={{ product: item }}>
         <div className="relative overflow-hidden bg-gray-50 aspect-square">
           <img
@@ -37,19 +53,15 @@ const ProductCard = ({ item }) => {
         </div>
       </Link>
 
-      {/* Product Info */}
       <div className="p-6">
-        {/* Category */}
         <span className="inline-block px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-sm font-medium rounded-full mb-3 border border-blue-100">
           {item.category}
         </span>
 
-        {/* Product Name */}
         <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
           {item.name}
         </h3>
 
-        {/* Rating (static fallback) */}
         <div className="flex items-center gap-2 mb-3">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
@@ -68,12 +80,10 @@ const ProductCard = ({ item }) => {
           </span>
         </div>
 
-        {/* Description */}
         <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
           {item.description}
         </p>
 
-        {/* Price and Add to Cart */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-gray-900">
